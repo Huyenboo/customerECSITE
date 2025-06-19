@@ -2,7 +2,7 @@
 <%@ page import="java.util.*, com.Product" %>
 
 <%
-    List<Product> list = (List<Product>) session.getAttribute("productList");
+    List<Product> list = (List<Product>) request.getAttribute("productList");
 %>
 
 <!DOCTYPE html>
@@ -97,28 +97,26 @@
 </head>
 <body>
 
-<!-- Top Bar -->
 <div class="top-bar">
     <div></div>
     <h2>商品一覧</h2>
     <div class="cart-button">
-        <form action="cart" method="get">
+        <form action="<%= request.getContextPath() %>/showCart" method="get">
             <button type="submit" class="add-cart-btn">カートを見る</button>
         </form>
     </div>
 </div>
 
-<!-- Search -->
 <div class="search-box">
     <div class="search-group">
-        <form action="SearchByIdServlet" method="get">
+        <form action="<%= request.getContextPath() %>/SearchByIdServlet" method="get">
             <label>ID検索</label><br>
             <input type="text" name="productId">
             <button type="submit">検索</button>
         </form>
     </div>
     <div class="search-group">
-        <form action="SearchByKeywordServlet" method="get">
+        <form action="<%= request.getContextPath() %>/SearchByKeywordServlet" method="get">
             <label>あいまい検索</label><br>
             <input type="text" name="keyword">
             <button type="submit">検索</button>
@@ -126,7 +124,6 @@
     </div>
 </div>
 
-<!-- Product Table -->
 <table>
     <tr>
         <th>商品名</th>
@@ -137,15 +134,15 @@
     </tr>
 
     <%
-        if (list != null) {
+        if (list != null && !list.isEmpty()) {
             for (Product p : list) {
     %>
     <tr>
         <td><%= p.getProName() %></td>
-        <td><%= p.getProUnitNum() %></td>
+        <td>¥<%= p.getProUnitNum() %></td>
         <td><%= p.getProMemo() %></td>
         <td>
-            <form method="post" action="addToCart">
+            <form method="post" action="<%= request.getContextPath() %>/addToCart">
                 <input type="hidden" name="productId" value="<%= p.getProId() %>">
                 <input type="number" name="quantity" value="1" min="1">
                 <button type="submit" class="add-cart-btn">カートに入れる</button>
@@ -163,7 +160,6 @@
     %>
 </table>
 
-<!-- Proceed to Checkout -->
 <form action="checkout.jsp" method="get">
     <button type="submit" class="submit-btn">購入に進む</button>
 </form>

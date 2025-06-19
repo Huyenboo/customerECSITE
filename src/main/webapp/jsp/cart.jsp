@@ -122,9 +122,9 @@
         <tr>
             <td><%= p.getProName() %></td>
             <td><%= item.getDeliveryDate() %></td>
-            <td><%= p.getProUnitNum() %></td>
+            <td>¥<%= p.getProUnitNum() %></td>
             <td><%= item.getQuantity() %></td>
-            <td><%= p.getProMemo() %></td>
+            <td><%= p.getProMemo() != null ? p.getProMemo() : "" %></td>
             <td><%= p.getProId() %></td>
             <td>
                 <form method="post" action="deleteCartItem">
@@ -139,7 +139,7 @@
                     <button type="submit" class="action-button">数量を変更</button>
                 </form>
             </td>
-            <td><%= subtotal %></td>
+            <td>¥<%= subtotal %></td>
         </tr>
         <%
                 }
@@ -152,10 +152,10 @@
         </tbody>
     </table>
 
-    <div class="total">合計: ￥<%= total %></div>
+    <div class="total">合計: ¥<%= total %></div>
 
     <div class="button-group">
-        <form action="productList.jsp">
+        <form action="productList">
             <button type="submit" class="btn">購入を続ける</button>
         </form>
         <form action="checkout.jsp">

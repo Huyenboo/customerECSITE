@@ -64,7 +64,7 @@
 <div class="login-box">
 	<h1>ログイン</h1>
 	<form action="<%=request.getContextPath()%>/login" method="post">
-		<label for="phone">電話番号番号:</label>
+		<label for="phone">電話番号:</label>
 		<input type="text" id="phone" name="phone" required>       
 		       
 		<label for="password">パスワード</label>

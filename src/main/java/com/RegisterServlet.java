@@ -15,21 +15,19 @@ public class RegisterServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        // Lấy dữ liệu từ form
         User user = new User();
         user.setCompanyName(req.getParameter("company_name"));
         user.setCompanyAddress(req.getParameter("company_address"));
         user.setPresidentPhoneNum(req.getParameter("president_phone_num"));
         user.setManagerName(req.getParameter("manager_name"));
-        user.setManagerPhoneNum(req.getParameter("manager_phone_num"));
         user.setManagerEmail(req.getParameter("manager_email"));
+        user.setManagerPhoneNum(req.getParameter("manager_phone_num"));
         user.setPassword(req.getParameter("password"));
 
         try {
             UserDAO dao = new UserDAO();
             boolean success = dao.registerUser(user);
             if (success) {
-                // Nếu thành công, chuyển hướng đến trang thông báo
                 resp.sendRedirect(req.getContextPath() + "/jsp/registerSuccess.jsp");
             } else {
                 resp.getWriter().println("登録に失敗しました。もう一度お試しください。");

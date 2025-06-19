@@ -11,10 +11,11 @@ import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
-		String phone = (String) req.getParameter("phone");
-		String password = (String) req.getParameter("password");
+		String phone = req.getParameter("phone");
+		String password = req.getParameter("password");
 		
 		UserDAO dao = new UserDAO();
 		User user = dao.loginUser(phone, password);
@@ -22,10 +23,16 @@ public class LoginServlet extends HttpServlet {
 		if (user != null) {
 			HttpSession session = req.getSession();
 			session.setAttribute("loginUser", user);
-			resp.sendRedirect(req.getContextPath() + "/jsp/customer.jsp");
+			
+			//if (管理者）
+			if (user.getStatus() == 2) {
+				resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
+			} else {
+				resp.sendRedirect(req.getContextPath() + "/jsp/customer.jsp");
+			}
 		} else {
 			resp.setContentType("text/html; charset=UTF-8");
-			resp.getWriter().println("ログイン失敗または承認されていません。");
+			resp.getWriter().println("<script>alert('ログイン失敗または未承認です。');history.back();</script>");
 		}
 	}
 }

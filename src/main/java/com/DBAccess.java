@@ -10,7 +10,7 @@ public class DBAccess {
 	private static final String DB_USER = "root";
 	private static final String DB_PWD = "";
 
-	private Connection connection = null;
+	protected Connection connection = null;
 
 	public Connection getConnection() {
 		return this.connection;

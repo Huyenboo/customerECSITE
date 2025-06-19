@@ -1,16 +1,19 @@
 package com;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 public class CartItem implements Serializable {
     private Product product;
     private int quantity;
-    private Date deliveryDate;
+    private String deliveryDate;
 
-    public CartItem() {}
+    public CartItem(Product product, int quantity) {
+        this.product = product;
+        this.quantity = quantity;
+        this.deliveryDate = "未定"; // default value
+    }
 
-    public CartItem(Product product, int quantity, Date deliveryDate) {
+    public CartItem(Product product, int quantity, String deliveryDate) {
         this.product = product;
         this.quantity = quantity;
         this.deliveryDate = deliveryDate;
@@ -18,10 +21,6 @@ public class CartItem implements Serializable {
 
     public Product getProduct() {
         return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public int getQuantity() {
@@ -32,11 +31,11 @@ public class CartItem implements Serializable {
         this.quantity = quantity;
     }
 
-    public Date getDeliveryDate() {
+    public String getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(Date deliveryDate) {
+    public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 

@@ -19,9 +19,9 @@ public class ProductListServlet extends HttpServlet {
 		List<Product> list = dao.getAllProducts();
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("productList", list);
+		request.setAttribute("productList", list);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/productList.jsp");
 		dispatcher.forward(request, response);
-	}
+	}	
 }
