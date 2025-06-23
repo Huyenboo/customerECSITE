@@ -20,7 +20,6 @@ public class CartServlet extends HttpServlet {
 
         // ここでセッションからcartListを取得（保持されている）
         List<CartItem> cartList = (List<CartItem>) session.getAttribute("cart");
-        System.out.println("show ");
         request.setAttribute("cartList", cartList); // JSPへ渡す
         request.getRequestDispatcher("/user/cart.jsp").forward(request, response);
         

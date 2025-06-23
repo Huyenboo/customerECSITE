@@ -16,18 +16,26 @@ import com.dao.OrderDAO;
 @WebServlet("/OrderHistory")
 public class OrderHistory extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String userId = request.getParameter("userId");
 		System.out.println(userId);
+		
 		OrderDAO dao = new OrderDAO();
 		List<CartItem> listOrder = dao.getAllOrderIdByUserId(userId);
+		for (CartItem order:listOrder) {
+			System.out.println(order.getUserName());
+		}
+		
 		if (listOrder != null) {
+			System.out.println("co list");
 			HttpSession session = request.getSession();
 			session.setAttribute("listOrder", listOrder);
-			response.sendRedirect(request.getContextPath() + "/user/OrderHistory.jsp");
-	
+			request.getRequestDispatcher("/user/orderHistory.jsp").forward(request,response);
+
 		} else {
-			response.sendRedirect(request.getContextPath() + "/user/OrderHistory.jsp");
+			response.sendRedirect(request.getContextPath() + "/user/orderHistory.jsp");
 		}
 	}
 }
