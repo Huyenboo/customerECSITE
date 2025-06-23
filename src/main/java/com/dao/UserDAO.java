@@ -33,7 +33,7 @@ public class UserDAO extends DBAccess {
 				c.setRequestedAt(rs.getTimestamp("requested_at"));
 				c.setApprovedAt(rs.getTimestamp("approved_at"));
 				c.setApprovedBy(rs.getInt("approved_by"));
-				c.setRejectionReason(rs.getString("rejection_reson"));
+				c.setRejectionReason(rs.getString("rejection_reason"));
 				list.add(c);
 			}
 			
@@ -62,7 +62,6 @@ public class UserDAO extends DBAccess {
         }
     }
 
-    // Đăng ký người dùng mới
     public boolean registerUser(User user) {
         String sql = "INSERT INTO app_user (company_id,company_name, company_address, president_phone_num, manager_name, manager_phone_num, manager_email, pass, status, requested_at) " +
                      "VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, NOW())";

@@ -29,7 +29,7 @@ public class CartItem implements Serializable {
     }
 
     public CartItem(int orderId, int userId, String userName, String orderCode, int orderAmount, Date orderDay,
-			Date orderArrivedDay, String orderMemo, Product product, int quantity, String deliveryDate) {
+            Date orderArrivedDay, String orderMemo, Product product, int quantity, String deliveryDate) {
 		super();
 		this.orderId = orderId;
 		this.userId = userId;

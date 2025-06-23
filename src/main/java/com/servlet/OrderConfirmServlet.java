@@ -31,7 +31,9 @@ public class OrderConfirmServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String userId = (String) session.getAttribute("userId");
 		String userName = (String) session.getAttribute("userName");
+		String userAddress = (String) session.getAttribute("user_address");
 		List<CartItem> cartList = (List<CartItem>) session.getAttribute("cart");
+		
 		
 		if (userId == null || userName == null || cartList == null || cartList.isEmpty()) {
 			response.sendRedirect("login.jsp");
@@ -46,10 +48,11 @@ public class OrderConfirmServlet extends HttpServlet {
 				break;
 			}
 		}
-
+		
+		//đặt hàng xong xóa giỏ hàng 
 		if (success) {
 			session.removeAttribute("cart");
-			response.sendRedirect("orderSuccess.jsp");
+			response.sendRedirect("/user/orderSuccess.jsp");
 		} else {
   	     	request.setAttribute("errMsg", "注文登録に失敗しました。");
   	     	request.getRequestDispatcher("/user/orderConfirm.jsp").forward(request, response);

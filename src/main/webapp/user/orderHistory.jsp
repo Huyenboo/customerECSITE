@@ -1,8 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, com.bean.CartItem" %>
-<%   List<CartItem> list = (List<CartItem>) request.getAttribute("listOrder"); %>
+<%
+    List<CartItem> list = (List<CartItem>) request.getAttribute("listOrder");
+%>
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -14,26 +15,22 @@
             margin: 0;
             padding: 40px;
         }
-
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
         }
-
         .header h1 {
             font-size: 24px;
             color: #2c7be5;
         }
-
         .header a {
             text-decoration: none;
             color: #2c7be5;
             font-size: 16px;
             font-weight: bold;
         }
-
         .history-box {
             background-color: white;
             border-radius: 20px;
@@ -43,24 +40,20 @@
             max-width: 900px;
             margin: 0 auto;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
         }
-
         th, td {
             border: 1px solid #333;
             padding: 12px;
             text-align: center;
             font-size: 14px;
         }
-
         th {
             background-color: #f0f8ff;
             font-weight: bold;
         }
-
         .btn-reorder {
             background-color: white;
             border: 1px solid #2c7be5;
@@ -69,7 +62,6 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .btn-reorder:hover {
             background-color: #dbeaff;
         }
@@ -93,19 +85,34 @@
         </tr>
         </thead>
         <tbody>
-              <%
-            if (listOrder != null && !listOrder.isEmpty()) {
-                for (CartItem item : listOder) {
+        <%
+            if (list != null && !list.isEmpty()) {
+                for (CartItem item : list) {
         %>
-
-
             <tr>
-                <td><% %></td>
-                <td></td>
-                <td><a href="#">詳細</a></td>
-                <td><button class="btn-reorder">再購入</button></td>
+                <td><%= item.getOrderDay() %></td>
+                <td><%= item.getOrderId() %></td>
+                <td><a href="order.jsp?orderId=<%= item.getOrderId() %>">詳細</a></td>
+                <td>
+                    <form action="addToCart" method="post">
+                        <input type="hidden" name="productId" value="<%= item.getProduct().getProId() %>">
+                        <input type="hidden" name="productName" value="<%= item.getProduct().getProName() %>">
+                        <input type="hidden" name="price" value="<%= item.getProduct().getProUnit() %>">
+                        <input type="hidden" name="quantity" value="<%= item.getQuantity() %>">
+                        <button type="submit" class="btn-reorder">再購入</button>
+                    </form>
+                </td>
             </tr>
-
+        <%
+                }
+            } else {
+        %>
+            <tr>
+                <td colspan="4">注文履歴がありません。</td>
+            </tr>
+        <%
+            }
+        %>
         </tbody>
     </table>
 </div>

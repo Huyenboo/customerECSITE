@@ -225,31 +225,44 @@ public class ProductDAO extends DBAccess {
 		return list;
 	}
 	
-	//xử lý phân trang (ページわけ処理)
+	// ページわけ処理（特定の範囲の商品リストを取得）
 	public List<Product> getProductsByPage(int offset, int limit) {
-		List<Product> list = new ArrayList<>();
-		String sql = "SELECT * FROM product LIMIT ? OFFSET ?";
-		
-		try {
-			connect();
-			PreparedStatement ps = getConnection().prepareStatement(sql);
-			ps.setInt(1, limit);   // Đặt limit trước
-			ps.setInt(2, offset);  // Sau đó offset
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				list.add(extractProductFromResultSet(rs));
-			}
-			
-			rs.close();
-			ps.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			disconnect();
-		}
-		
-		return list;
+
+	    // 結果を格納するリストを作成
+	    List<Product> list = new ArrayList<>();
+
+	    // SQL文：商品テーブルから特定件数（LIMIT）と開始位置（OFFSET）でデータ取得
+	    String sql = "SELECT * FROM product LIMIT ? OFFSET ?";
+
+	    try {
+	        connect();
+	        
+	        PreparedStatement ps = getConnection().prepareStatement(sql);
+
+	        // 1つ目の「?」に表示件数（limit）をセット
+	        ps.setInt(1, limit);
+
+	        // 2つ目の「?」に開始位置（offset）をセット
+	        ps.setInt(2, offset);
+
+	        // SQLを実行し、結果を取得
+	        ResultSet rs = ps.executeQuery();
+
+	        // 結果セットから1行ずつ取り出してProductオブジェクトに変換
+	        while (rs.next()) {
+	            list.add(extractProductFromResultSet(rs));  // 変換処理は共通関数を利用
+	        }
+
+	        rs.close();
+	        ps.close(); 
+
+	    } catch (Exception e) {
+	        e.printStackTrace(); 
+	    } finally {
+	        disconnect();  
+	    }
+	    //trả về list hàng
+	    return list;
 	}
 	
 	private Product extractProductFromResultSet(ResultSet rs) throws Exception {

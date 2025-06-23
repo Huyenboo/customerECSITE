@@ -132,7 +132,7 @@
             <button type="submit">購入をする</button>
         </form>
 
-        <form action="oderHistory.jsp">
+        <form action="<%= request.getContextPath() %>/OrderHistory" method = "post">
         	<input type = "hidden" name ="userId" value ="<%= loginUser.getId()%>">
             <button type="submit">注文履歴</button>
         </form>

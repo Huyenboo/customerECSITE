@@ -161,29 +161,57 @@
 </table>
 <div style="text-align: center; margin-top: 20px;">
 <%
-    int currentPage = 1;
-    int totalPages = 1;
+int currentPage = 1;// 現在のページ番号（初期値は1）
+int totalPages = 1; //総ページ数（初期値は1
 
-    if (request.getAttribute("currentPage") != null) {
-        currentPage = (Integer) request.getAttribute("currentPage");
-    }
-    if (request.getAttribute("totalPages") != null) {
-        totalPages = (Integer) request.getAttribute("totalPages");
-    }
+//リクエストから現在のページ番号を取得
+if (request.getAttribute("currentPage") != null) {
+	
+	// リクエストから総ページ数を取得
+    currentPage = (Integer) request.getAttribute("currentPage");
+}
+if (request.getAttribute("totalPages") != null) {
+    totalPages = (Integer) request.getAttribute("totalPages");
+}
+%>
 
+<div style="margin: 20px 0;">
+<%
+	// ページリンクの基本URLを作成
+    String baseUrl = request.getContextPath() + "/productList?page=";
 
-        for (int i = 1; i <= totalPages; i++) {
-            if (i == currentPage) {
-    %>
-                <strong><%= i %></strong>
-    <%
-            } else {
-    %>
-                <a href="<%= request.getContextPath() %>/productList?page=<%= i %>"><%= i %></a>
-    <%
-            }
+    // 1ページから6ページ
+    for (int i = 1; i <= 6 && i <= totalPages; i++) {
+        if (i == currentPage) {
+%>
+            <strong><%= i %></strong>
+<%
+        } else {
+%>
+            <a href="<%= baseUrl + i %>"><%= i %></a>
+<%
         }
-    %>
+    }
+
+//if ページ合計＞６　「。。。」表示
+
+    if (totalPages > 6) {
+%>
+        <span>...</span>
+<%
+        if (currentPage == totalPages) {
+%>
+            <strong><%= totalPages %></strong>
+<%
+        } else {
+%>			<%-- 最後のページ番号へのリンクを表示する --%>
+            <a href="<%= baseUrl + totalPages %>"><%= totalPages %></a>
+<%
+        }
+    }
+%>
+</div>
+
 </div>
 
 <form action="checkout.jsp" method="get">

@@ -67,10 +67,12 @@ public class UpdateCartItemServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
-
+		HttpSession session = request.getSession();
 		String productId = request.getParameter("productId");
 		String quantityStr = request.getParameter("quantity");
-		
+
+		String orderArrivedDay = (String) request.getParameter("orderArrivedDay");
+		System.out.println(orderArrivedDay);
 
 		if (productId == null || quantityStr == null || quantityStr.isEmpty()) {
 			request.setAttribute("errMsg", "商品IDまたは数量が指定されていません。");
@@ -87,13 +89,14 @@ public class UpdateCartItemServlet extends HttpServlet {
 			return;
 		}
 
-		HttpSession session = request.getSession();
+		@SuppressWarnings("unchecked")
 		List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
 		if (cart != null) {
 			for (CartItem item : cart) {
 				if (item.getProduct().getProId().equals(productId)) {
 					item.setQuantity(newQuantity);
+					//					item.setOrderArrivedDay():
 					break;
 				}
 			}
@@ -103,4 +106,3 @@ public class UpdateCartItemServlet extends HttpServlet {
 		request.getRequestDispatcher("/user/cart.jsp").forward(request, response);
 	}
 }
-

@@ -74,7 +74,7 @@
         ※お支払いは納品後になります。注文確認は注文履歴をご覧ください。
     </p>
     <div class="btn-group">
-        <a href="<%= request.getContextPath() %>/orderHistory" class="button">注文履歴を見る</a>
+        <a href="<%= request.getContextPath() %>/OrderHistory" class="button">注文履歴を見る</a>
         <a href="customer.jsp" class="button">TOPへ</a>
     </div>
 </div>
