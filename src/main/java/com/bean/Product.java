@@ -16,6 +16,7 @@ public class Product {
     private String proEnStan;
     private String proSciName;
     private int proUnitNum;
+    private double proPrice;
     private String proUnit;
     private int proDiscard;
     private String proMemo;
@@ -23,6 +24,13 @@ public class Product {
 //    private BigDecimal proPrice;
 //    private String proExe;
     
+    public double getProPrice() {
+    	return proPrice;
+    }
+    
+    public void setProPrice(double proPrice) {
+    	this.proPrice = proPrice;
+    }
     public int getId() { return Id; }
     public void setId(int Id) { this.Id = Id; }
 

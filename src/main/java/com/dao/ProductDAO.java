@@ -35,6 +35,7 @@ public class ProductDAO extends DBAccess {
 				p.setProEnStan(rs.getString("pro_en_stan"));
 				p.setProSciName(rs.getString("pro_sci_name"));
 				p.setProUnitNum(rs.getInt("pro_unit_num"));
+				p.setProPrice(rs.getDouble("pro_price"));
 				p.setProUnit(rs.getString("pro_unit"));
 				p.setProDiscard(rs.getInt("pro_discard"));
 				p.setProMemo(rs.getString("pro_memo"));
@@ -52,7 +53,7 @@ public class ProductDAO extends DBAccess {
 		return list;
 	}
 	public boolean insertProduct(Product p) {
-		String sql = "INSERT INTO product (id, pro_id, pro_name, pro_name_short, pro_en_name, pro_kana_name, pro_file, pro_seedling, pro_box, pro_code1, pro_code2, pro_stan, pro_en_stan, pro_sci_name, pro_unit_num, pro_unit, pro_discard, pro_memo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO product (id, pro_id, pro_name, pro_name_short, pro_en_name, pro_kana_name, pro_file, pro_seedling, pro_box, pro_code1, pro_code2, pro_stan, pro_en_stan, pro_sci_name, pro_unit_num,pro_price, pro_unit, pro_discard, pro_memo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			connect();
 			PreparedStatement ps = getConnection().prepareStatement(sql);
@@ -71,9 +72,10 @@ public class ProductDAO extends DBAccess {
 			ps.setString(13, p.getProEnStan());
 			ps.setString(14, p.getProSciName());
 			ps.setInt(15, p.getProUnitNum());
-			ps.setString(16, p.getProUnit());
-			ps.setInt(17, p.getProDiscard());
-			ps.setString(18, p.getProMemo());
+			ps.setDouble(16,p.getProPrice());
+			ps.setString(17, p.getProUnit());
+			ps.setInt(18, p.getProDiscard());
+			ps.setString(19, p.getProMemo());
 //			ps.setBigDecimal(18, p.getProPrice());
 //			ps.setString(19, p.getProExe());
 			
@@ -116,6 +118,7 @@ public class ProductDAO extends DBAccess {
 				p.setProEnStan(rs.getString("pro_en_stan"));
 				p.setProSciName(rs.getString("pro_sci_name"));
 				p.setProUnitNum(rs.getInt("pro_unit_num"));
+				p.setProPrice(rs.getDouble("pro_price"));
 				p.setProUnit(rs.getString("pro_unit"));
 				p.setProDiscard(rs.getInt("pro_discard"));
 				p.setProMemo(rs.getString("pro_memo"));
@@ -161,6 +164,7 @@ public class ProductDAO extends DBAccess {
 				p.setProEnStan(rs.getString("pro_en_stan"));
 				p.setProSciName(rs.getString("pro_sci_name"));
 				p.setProUnitNum(rs.getInt("pro_unit_num"));
+				p.setProPrice(rs.getDouble("pro_price"));
 				p.setProUnit(rs.getString("pro_unit"));
 				p.setProDiscard(rs.getInt("pro_discard"));
 				p.setProMemo(rs.getString("pro_memo"));
@@ -206,6 +210,7 @@ public class ProductDAO extends DBAccess {
 				p.setProEnStan(rs.getString("pro_en_stan"));
 				p.setProSciName(rs.getString("pro_sci_name"));
 				p.setProUnitNum(rs.getInt("pro_unit_num"));
+				p.setProPrice(rs.getDouble("pro_price"));
 				p.setProUnit(rs.getString("pro_unit"));
 				p.setProDiscard(rs.getInt("pro_discard"));
 				p.setProMemo(rs.getString("pro_memo"));
@@ -282,6 +287,7 @@ public class ProductDAO extends DBAccess {
 		p.setProEnStan(rs.getString("pro_en_stan"));
 		p.setProSciName(rs.getString("pro_sci_name"));
 		p.setProUnitNum(rs.getInt("pro_unit_num"));
+		p.setProPrice(rs.getDouble("pro_price"));
 		p.setProUnit(rs.getString("pro_unit"));
 		p.setProDiscard(rs.getInt("pro_discard"));
 		p.setProMemo(rs.getString("pro_memo"));

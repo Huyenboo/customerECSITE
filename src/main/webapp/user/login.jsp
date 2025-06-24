@@ -27,6 +27,11 @@
             color: #2c7be5;
             margin-bottom: 30px;
         }
+        .error-msg {
+            color: red;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
         label {
             display: block;
             text-align: left;
@@ -62,17 +67,24 @@
 </head>
 <body>
 <div class="login-box">
-	<h1>ログイン</h1>
-	<form action="<%=request.getContextPath()%>/login" method="post">
-		<label for="phone">電話番号:</label>
-		<input type="text" id="phone" name="phone" required>       
-		       
-		<label for="password">パスワード</label>
-		<input type="password" id="password" name="password" required>
-		
-		<button type="submit">ログイン</button>
-	</form>
-	<a href="<%=request.getContextPath()%>/user/register.jsp">新規登録はこちら</a>
+    <h1>ログイン</h1>
+
+    <% String errMsg = (String) request.getAttribute("errMsg"); %>
+    <% if (errMsg != null) { %>
+        <div class="error-msg"><%= errMsg %></div>
+    <% } %>
+
+    <form action="<%=request.getContextPath()%>/login" method="post">
+        <label for="phone">電話番号:</label>
+        <input type="text" id="phone" name="phone" required>       
+
+        <label for="password">パスワード</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">ログイン</button>
+    </form>
+
+    <a href="<%=request.getContextPath()%>/user/register.jsp">新規登録はこちら</a>
 </div>
 </body>
 </html>

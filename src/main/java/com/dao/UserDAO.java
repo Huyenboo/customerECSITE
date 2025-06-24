@@ -89,7 +89,7 @@ public class UserDAO extends DBAccess {
         return false;
     }
     public User loginUser(String phone, String rawPassword) {
-        String sql = "SELECT * FROM app_user WHERE manager_phone_num = ? AND pass = ? AND status = 'accept'"; // chỉ cho phép đã được duyệt (status = 1)
+        String sql = "SELECT * FROM app_user WHERE manager_phone_num = ? AND pass = ?"; // chỉ cho phép đã được duyệt (status = 1)
 
         try {
             connect();
@@ -104,6 +104,7 @@ public class UserDAO extends DBAccess {
                 user.setId(rs.getInt("id"));
                 user.setCompanyId(rs.getString("company_id"));
                 user.setCompanyName(rs.getString("company_name"));
+                user.setCompanyAddress(rs.getString("company_address")); 
                 user.setManagerName(rs.getString("manager_name"));
                 user.setManagerPhoneNum(rs.getString("manager_phone_num"));
                 user.setPassword(rs.getString("pass"));
