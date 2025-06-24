@@ -35,6 +35,13 @@
       margin-bottom: 30px;
     }
 
+    .error-msg {
+      color: red;
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
     form {
       display: flex;
       flex-direction: column;
@@ -102,6 +109,12 @@
 <body>
   <div class="register-box">
     <h1>新規登録</h1>
+
+    <% String errMsg = (String) request.getAttribute("errMsg"); %>
+    <% if (errMsg != null) { %>
+      <div class="error-msg"><%= errMsg %></div>
+    <% } %>
+
     <form action="<%= request.getContextPath() %>/register" method="post">
       <label for="company_name">企業名</label>
       <input type="text" id="company_name" name="company_name" required>
@@ -132,6 +145,7 @@
         <button type="submit" class="btn">登録</button>
       </div>
     </form>
+    
     <div class="link">
       すでにアカウントをお持ちのお客様は <a href="login.jsp">こちら</a>
     </div>

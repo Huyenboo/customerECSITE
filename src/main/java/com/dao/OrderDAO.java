@@ -12,7 +12,7 @@ public class OrderDAO extends DBAccess {
 	
     // Ghi đơn hàng mới vào DB
 	public boolean insertOrder(String userId, String userName, CartItem item) {
-		String sql = "INSERT INTO order_list (product_id, quantity, order_amount, user_id, order_day, user_name) " +"VALUES (?, ?, ?, ?, CURRENT_DATE, ?)";
+		String sql = "INSERT INTO order_list (order_id,user_id , user_name, order_code, order_amount,  order_day , order_arrived_day ,order_memo) " +"VALUES (?, ?,?, ?,?, ?,?, ?)";
 		
 		try {
 			connect();
@@ -49,7 +49,6 @@ public class OrderDAO extends DBAccess {
 		while (rs.next()) {
 			CartItem o = new CartItem();
 			o.setOrderId(rs.getInt("order_id"));
-			o.setUserId(rs.getInt("user_id"));
 			o.setUserName(rs.getString("user_name"));
 			o.setOrderCode(rs.getString("order_code"));
 			o.setOrderAmount(rs.getInt("order_amount"));

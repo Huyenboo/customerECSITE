@@ -1,55 +1,7 @@
-//package com.servlet;
-//
-//import java.io.IOException;
-//import java.util.List;
-//
-//import jakarta.servlet.ServletException;
-//import jakarta.servlet.annotation.WebServlet;
-//import jakarta.servlet.http.HttpServlet;
-//import jakarta.servlet.http.HttpServletRequest;
-//import jakarta.servlet.http.HttpServletResponse;
-//import jakarta.servlet.http.HttpSession;
-//
-//import com.bean.CartItem;
-//
-//@WebServlet("/updateCartItem")
-//public class UpdateCartItemServlet extends HttpServlet {
-//	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//			throws ServletException, IOException {
-//
-//		String productId = request.getParameter("productId");
-////		String oderId = request.getParameter("order_id");
-////		String orderArrivedDay = request.getParameter("order_arrived_day");
-//		
-//		int newQuantity = Integer.parseInt(request.getParameter("quantity"));
-//		
-//		
-//		
-////		System.out.println(productId);
-////		System.out.println(oderId );
-//		System.out.println(newQuantity);
-//		
-//		
-//		HttpSession session = request.getSession();
-//		List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-//		System.out.println("updatecartitem");
-//		if (cart != null) {
-//			for (CartItem item : cart) {
-//				if (item.getProduct().getProId().equals(productId)) {
-//					item.setQuantity(newQuantity);
-//					break;
-//				}
-//			}
-//			session.setAttribute("cart", cart);
-//		}
-//
-//		response.sendRedirect(request.getContextPath() + "/user/cart.jsp");
-//	}
-//}
-
 package com.servlet;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -63,46 +15,54 @@ import com.bean.CartItem;
 
 @WebServlet("/updateCartItem")
 public class UpdateCartItemServlet extends HttpServlet {
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
 
-		request.setCharacterEncoding("UTF-8");
-		HttpSession session = request.getSession();
-		String productId = request.getParameter("productId");
-		String quantityStr = request.getParameter("quantity");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		String orderArrivedDay = (String) request.getParameter("orderArrivedDay");
-		System.out.println(orderArrivedDay);
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
 
-		if (productId == null || quantityStr == null || quantityStr.isEmpty()) {
-			request.setAttribute("errMsg", "商品IDまたは数量が指定されていません。");
-			request.getRequestDispatcher("/user/cart.jsp").forward(request, response);
-			return;
-		}
+        String productId = request.getParameter("productId");
+        String quantityStr = request.getParameter("quantity");
+        String orderArrivedDayStr = request.getParameter("orderArrivedDay");
 
-		int newQuantity = 0;
-		try {
-			newQuantity = Integer.parseInt(quantityStr);
-		} catch (NumberFormatException e) {
-			request.setAttribute("errMsg", "数量は数値である必要があります。");
-			request.getRequestDispatcher("/user/cart.jsp").forward(request, response);
-			return;
-		}
+        if (productId == null || quantityStr == null || quantityStr.isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/user/cart.jsp");
+            return;
+        }
 
-		@SuppressWarnings("unchecked")
-		List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+        int newQuantity = 0;
+        try {
+            newQuantity = Integer.parseInt(quantityStr);
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/user/cart.jsp");
+            return;
+        }
 
-		if (cart != null) {
-			for (CartItem item : cart) {
-				if (item.getProduct().getProId().equals(productId)) {
-					item.setQuantity(newQuantity);
-					//					item.setOrderArrivedDay():
-					break;
-				}
-			}
-			session.setAttribute("cart", cart);
-		}
+        @SuppressWarnings("unchecked")
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
-		request.getRequestDispatcher("/user/cart.jsp").forward(request, response);
-	}
+        if (cart != null) {
+            for (CartItem item : cart) {
+                if (item.getProduct().getProId().equals(productId)) {
+                    item.setQuantity(newQuantity);
+
+                    // Xử lý ngày giao hàng
+                    if (orderArrivedDayStr != null && !orderArrivedDayStr.isEmpty()) {
+                        try {
+                            Date orderArrivedDay = Date.valueOf(orderArrivedDayStr);
+                            item.setOrderArrivedDay(orderArrivedDay);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("⚠️ 日付の形式が不正です: " + orderArrivedDayStr);
+                        }
+                    }
+                    break;
+                }
+            }
+            session.setAttribute("cart", cart);
+        }
+
+        response.sendRedirect(request.getContextPath() + "/user/cart.jsp");
+    }
 }

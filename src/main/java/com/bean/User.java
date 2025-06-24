@@ -46,7 +46,7 @@ public class User {
 	public void setPassword(String password) { this.password = password; }
 	
 	public String getStatus() { return status; }
-	public void setStatus(String string ) { this.status = status ; }
+	public void setStatus(String status ) { this.status = status ; }
 	
 	public Timestamp getRequestedAt() { return requestedAt; }
 	public void setRequestedAt(Timestamp requestedAt) { this.requestedAt = requestedAt; }

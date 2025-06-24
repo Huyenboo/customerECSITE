@@ -5,7 +5,7 @@ import java.sql.Date;
 
 public class CartItem implements Serializable {
 	private int orderId;
-	private int userId;
+	private String userId;
 	private String userName;
 	private String orderCode;
 	private int orderAmount;
@@ -28,7 +28,7 @@ public class CartItem implements Serializable {
         this.deliveryDate = deliveryDate;
     }
 
-    public CartItem(int orderId, int userId, String userName, String orderCode, int orderAmount, Date orderDay,
+    public CartItem(int orderId, String userId, String userName, String orderCode, int orderAmount, Date orderDay,
             Date orderArrivedDay, String orderMemo, Product product, int quantity, String deliveryDate) {
 		super();
 		this.orderId = orderId;
@@ -82,11 +82,11 @@ public class CartItem implements Serializable {
 		this.orderId = orderId;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

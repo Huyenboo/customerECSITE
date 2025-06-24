@@ -25,6 +25,7 @@ public class AddToCartServlet extends HttpServlet {
         String productId = request.getParameter("productId");
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         String deliveryDate = request.getParameter("deliveryDate");
+       
 
         // Lấy sản phẩm từ DB
         ProductDAO dao = new ProductDAO();
