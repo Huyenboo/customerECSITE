@@ -85,6 +85,7 @@
         </tr>
         </thead>
         <tbody>
+
         <%
             if (list != null && !list.isEmpty()) {
                 for (CartItem item : list) {
@@ -95,10 +96,6 @@
                 <td><a href="order.jsp?orderId=<%= item.getOrderId() %>">詳細</a></td>
                 <td>
                     <form action="addToCart" method="post">
-                        <input type="hidden" name="productId" value="<%= item.getProduct().getProId() %>">
-                        <input type="hidden" name="productName" value="<%= item.getProduct().getProName() %>">
-                        <input type="hidden" name="price" value="<%= item.getProduct().getProUnit() %>">
-                        <input type="hidden" name="quantity" value="<%= item.getQuantity() %>">
                         <button type="submit" class="btn-reorder">再購入</button>
                     </form>
                 </td>

@@ -141,4 +141,14 @@ public class CartItem implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+
+	@Override
+	public String toString() {
+		return "CartItem [orderId=" + orderId + ", userId=" + userId + ", userName=" + userName + ", orderCode="
+				+ orderCode + ", orderAmount=" + orderAmount + ", orderDay=" + orderDay + ", orderArrivedDay="
+				+ orderArrivedDay + ", orderMemo=" + orderMemo + ", product=" + product + ", quantity=" + quantity
+				+ ", deliveryDate=" + deliveryDate + "]";
+	}
+	
+	
 }

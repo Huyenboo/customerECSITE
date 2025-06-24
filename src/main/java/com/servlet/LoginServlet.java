@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
             // Đã được phê duyệt
             HttpSession session = req.getSession();
             session.setAttribute("loginUser", user);
-            session.setAttribute("userId", user.getCompanyId());
+            session.setAttribute("userId", user.getId());
             session.setAttribute("userName", user.getManagerName());
             session.setAttribute("address", user.getCompanyAddress());
 

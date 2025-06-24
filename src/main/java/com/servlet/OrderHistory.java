@@ -8,7 +8,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import com.bean.CartItem;
 import com.dao.OrderDAO;
@@ -20,18 +19,15 @@ public class OrderHistory extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String userId = request.getParameter("userId");
-		System.out.println(userId);
 		
 		OrderDAO dao = new OrderDAO();
-		List<CartItem> listOrder = dao.getAllOrderIdByUserId(userId);
-		for (CartItem order:listOrder) {
-			System.out.println(order.getUserName());
-		}
+		List<CartItem> listOrderDb = dao.getAllOrderIdByUserId(userId);
 		
-		if (listOrder != null) {
+		
+		if (listOrderDb != null || !listOrderDb.isEmpty()) {
 			System.out.println("co list");
-			HttpSession session = request.getSession();
-			session.setAttribute("listOrder", listOrder);
+//			HttpSession session = request.getSession();
+			request.setAttribute("listOrder", listOrderDb);
 			request.getRequestDispatcher("/user/orderHistory.jsp").forward(request,response);
 
 		} else {
