@@ -1,3 +1,4 @@
+
 package com.servlet;
 
 import java.io.IOException;
@@ -19,19 +20,41 @@ public class OrderHistory extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String userId = request.getParameter("userId");
-		
+
 		OrderDAO dao = new OrderDAO();
 		List<CartItem> listOrderDb = dao.getAllOrderIdByUserId(userId);
-		
-		
+
 		if (listOrderDb != null || !listOrderDb.isEmpty()) {
 			System.out.println("co list");
-//			HttpSession session = request.getSession();
+			//			HttpSession session = request.getSession();
 			request.setAttribute("listOrder", listOrderDb);
-			request.getRequestDispatcher("/user/orderHistory.jsp").forward(request,response);
+			request.getRequestDispatcher("/user/orderHistory.jsp").forward(request, response);
 
 		} else {
 			response.sendRedirect(request.getContextPath() + "/user/orderHistory.jsp");
 		}
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// Giả sử userId lấy từ session (thường sau khi đăng nhập đã lưu vào session)
+		String userId = String.valueOf(request.getSession().getAttribute("userId"));
+
+		if (userId == null) {
+			// Nếu chưa đăng nhập, điều hướng về trang đăng nhập
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+
+		OrderDAO dao = new OrderDAO();
+		List<CartItem> listOrderDb = dao.getAllOrderIdByUserId(userId);
+
+		if (listOrderDb != null && !listOrderDb.isEmpty()) {
+			request.setAttribute("listOrder", listOrderDb);
+		}
+
+		request.getRequestDispatcher("/user/orderHistory.jsp").forward(request, response);
 	}
 }

@@ -14,17 +14,17 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet("/setAddress")
 public class SetAddressServlet extends HttpServlet {
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        String address = request.getParameter("address");
-        HttpSession session = request.getSession();
+		String address = request.getParameter("address");
+		HttpSession session = request.getSession();
 
-        if (address != null && !address.isEmpty()) {
-            session.setAttribute("address", address);
-        }
+		if (address != null && !address.isEmpty()) {
+			session.setAttribute("address", address);
+		}
 
-        response.sendRedirect(request.getContextPath() + "/user/orderConfirm.jsp");
-    }
+		response.sendRedirect(request.getContextPath() + "/user/orderConfirm.jsp");
+	}
 }

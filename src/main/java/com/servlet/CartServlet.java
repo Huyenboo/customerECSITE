@@ -14,15 +14,14 @@ import com.bean.CartItem;
 
 @WebServlet("/showCart")
 public class CartServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
 
-        // ここでセッションからcartListを取得（保持されている）
-        List<CartItem> cartList = (List<CartItem>) session.getAttribute("cart");
-        request.setAttribute("cartList", cartList); // JSPへ渡す
-        request.getRequestDispatcher("/user/cart.jsp").forward(request, response);
-        
-    }
+		// ここでセッションからcartListを取得（保持されている）
+		List<CartItem> cartList = (List<CartItem>) session.getAttribute("cart");
+		request.setAttribute("cartList", cartList); // JSPへ渡す
+		request.getRequestDispatcher("/user/cart.jsp").forward(request, response);
+
+	}
 }
-
