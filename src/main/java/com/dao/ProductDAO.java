@@ -12,12 +12,12 @@ public class ProductDAO extends DBAccess {
 	public List<Product> getAllProducts() {
 		List<Product> list = new ArrayList<>();
 		String sql = "SELECT * FROM product";
-		
+
 		try {
 			connect();
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
 				Product p = new Product();
 				p.setId(rs.getInt("id"));
@@ -41,7 +41,7 @@ public class ProductDAO extends DBAccess {
 				p.setProMemo(rs.getString("pro_memo"));
 				list.add(p);
 			}
-			
+
 			rs.close();
 			ps.close();
 		} catch (Exception e) {
@@ -49,9 +49,10 @@ public class ProductDAO extends DBAccess {
 		} finally {
 			disconnect();
 		}
-		
+
 		return list;
 	}
+
 	public boolean insertProduct(Product p) {
 		String sql = "INSERT INTO product (id, pro_id, pro_name, pro_name_short, pro_en_name, pro_kana_name, pro_file, pro_seedling, pro_box, pro_code1, pro_code2, pro_stan, pro_en_stan, pro_sci_name, pro_unit_num,pro_price, pro_unit, pro_discard, pro_memo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
@@ -72,13 +73,13 @@ public class ProductDAO extends DBAccess {
 			ps.setString(13, p.getProEnStan());
 			ps.setString(14, p.getProSciName());
 			ps.setInt(15, p.getProUnitNum());
-			ps.setDouble(16,p.getProPrice());
+			ps.setDouble(16, p.getProPrice());
 			ps.setString(17, p.getProUnit());
 			ps.setInt(18, p.getProDiscard());
 			ps.setString(19, p.getProMemo());
-//			ps.setBigDecimal(18, p.getProPrice());
-//			ps.setString(19, p.getProExe());
-			
+			//			ps.setBigDecimal(18, p.getProPrice());
+			//			ps.setString(19, p.getProExe());
+
 			int result = ps.executeUpdate();
 			ps.close();
 			return result > 0;
@@ -88,19 +89,19 @@ public class ProductDAO extends DBAccess {
 		} finally {
 			disconnect();
 		}
-		
-		
+
 	}
+
 	public Product getProductById(String id) {
 		Product p = null;
 		String sql = "SELECT * FROM product WHERE pro_id = ?";
-		
+
 		try {
 			connect();
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ps.setString(1, id);
 			ResultSet rs = ps.executeQuery();
-			
+
 			if (rs.next()) {
 				p = new Product();
 				p.setId(rs.getInt("id"));
@@ -122,10 +123,10 @@ public class ProductDAO extends DBAccess {
 				p.setProUnit(rs.getString("pro_unit"));
 				p.setProDiscard(rs.getInt("pro_discard"));
 				p.setProMemo(rs.getString("pro_memo"));
-//				p.setProPrice(rs.getBigDecimal("pro_price"));
-//				p.setProExe(rs.getString("pro_exe"));
+				//				p.setProPrice(rs.getBigDecimal("pro_price"));
+				//				p.setProExe(rs.getString("pro_exe"));
 			}
-			
+
 			rs.close();
 			ps.close();
 		} catch (Exception e) {
@@ -133,20 +134,20 @@ public class ProductDAO extends DBAccess {
 		} finally {
 			disconnect();
 		}
-		
+
 		return p;
 	}
-	
-	public List<Product> searchByKeyword(String keyword){
+
+	public List<Product> searchByKeyword(String keyword) {
 		List<Product> list = new ArrayList<>();
 		String sql = "SELECT *FROM product WHERE pro_name LIKE ?";
-		
+
 		try {
 			connect();
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ps.setString(1, "%" + keyword + "%");
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
 				Product p = new Product();
 				p.setId(rs.getInt("id"));
@@ -168,8 +169,8 @@ public class ProductDAO extends DBAccess {
 				p.setProUnit(rs.getString("pro_unit"));
 				p.setProDiscard(rs.getInt("pro_discard"));
 				p.setProMemo(rs.getString("pro_memo"));
-//				p.setProPrice(rs.getBigDecimal("pro_price"));
-//				p.setProExe(rs.getString("pro_exe"));
+				//				p.setProPrice(rs.getBigDecimal("pro_price"));
+				//				p.setProExe(rs.getString("pro_exe"));
 				list.add(p);
 			}
 
@@ -180,19 +181,20 @@ public class ProductDAO extends DBAccess {
 		} finally {
 			disconnect();
 		}
-		
+
 		return list;
 	}
+
 	public List<Product> searchById(String id) {
 		List<Product> list = new ArrayList<>();
 		String sql = "SELECT * FROM product WHERE pro_id = ?";
-		
+
 		try {
 			connect();
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ps.setString(1, id);
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
 				Product p = new Product();
 				p.setId(rs.getInt("id"));
@@ -214,11 +216,11 @@ public class ProductDAO extends DBAccess {
 				p.setProUnit(rs.getString("pro_unit"));
 				p.setProDiscard(rs.getInt("pro_discard"));
 				p.setProMemo(rs.getString("pro_memo"));
-//				p.setProPrice(rs.getBigDecimal("pro_price"));
-//				p.setProExe(rs.getString("pro_exe"));
+				//				p.setProPrice(rs.getBigDecimal("pro_price"));
+				//				p.setProExe(rs.getString("pro_exe"));
 				list.add(p);
 			}
-			
+
 			rs.close();
 			ps.close();
 		} catch (Exception e) {
@@ -226,50 +228,50 @@ public class ProductDAO extends DBAccess {
 		} finally {
 			disconnect();
 		}
-		
+
 		return list;
 	}
-	
+
 	// ページわけ処理（特定の範囲の商品リストを取得）
 	public List<Product> getProductsByPage(int offset, int limit) {
 
-	    // 結果を格納するリストを作成
-	    List<Product> list = new ArrayList<>();
+		// 結果を格納するリストを作成
+		List<Product> list = new ArrayList<>();
 
-	    // SQL文：商品テーブルから特定件数（LIMIT）と開始位置（OFFSET）でデータ取得
-	    String sql = "SELECT * FROM product LIMIT ? OFFSET ?";
+		// SQL文：商品テーブルから特定件数（LIMIT）と開始位置（OFFSET）でデータ取得
+		String sql = "SELECT * FROM product LIMIT ? OFFSET ?";
 
-	    try {
-	        connect();
-	        
-	        PreparedStatement ps = getConnection().prepareStatement(sql);
+		try {
+			connect();
 
-	        // 1つ目の「?」に表示件数（limit）をセット
-	        ps.setInt(1, limit);
+			PreparedStatement ps = getConnection().prepareStatement(sql);
 
-	        // 2つ目の「?」に開始位置（offset）をセット
-	        ps.setInt(2, offset);
+			// 1つ目の「?」に表示件数（limit）をセット
+			ps.setInt(1, limit);
 
-	        // SQLを実行し、結果を取得
-	        ResultSet rs = ps.executeQuery();
+			// 2つ目の「?」に開始位置（offset）をセット
+			ps.setInt(2, offset);
 
-	        // 結果セットから1行ずつ取り出してProductオブジェクトに変換
-	        while (rs.next()) {
-	            list.add(extractProductFromResultSet(rs));  // 変換処理は共通関数を利用
-	        }
+			// SQLを実行し、結果を取得
+			ResultSet rs = ps.executeQuery();
 
-	        rs.close();
-	        ps.close(); 
+			// 結果セットから1行ずつ取り出してProductオブジェクトに変換
+			while (rs.next()) {
+				list.add(extractProductFromResultSet(rs)); // 変換処理は共通関数を利用
+			}
 
-	    } catch (Exception e) {
-	        e.printStackTrace(); 
-	    } finally {
-	        disconnect();  
-	    }
-	    //trả về list hàng
-	    return list;
+			rs.close();
+			ps.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		//trả về list hàng
+		return list;
 	}
-	
+
 	private Product extractProductFromResultSet(ResultSet rs) throws Exception {
 		Product p = new Product();
 		p.setId(rs.getInt("id"));
@@ -291,31 +293,30 @@ public class ProductDAO extends DBAccess {
 		p.setProUnit(rs.getString("pro_unit"));
 		p.setProDiscard(rs.getInt("pro_discard"));
 		p.setProMemo(rs.getString("pro_memo"));
-//		p.setProPrice(rs.getBigDecimal("pro_price"));
-//		p.setProExe(rs.getString("pro_exe"));
+		//		p.setProPrice(rs.getBigDecimal("pro_price"));
+		//		p.setProExe(rs.getString("pro_exe"));
 		return p;
 	}
-	
+
 	public int getProductCount() {
 		int count = 0;
 		String sql = "select count(*) From product";
-		
+
 		try {
 			connect();
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				count = rs.getInt(1);
 			}
 			rs.close();
 			ps.close();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} finally{
+		} finally {
 			disconnect();
 		}
-		
+
 		return count;
 	}
 }
-

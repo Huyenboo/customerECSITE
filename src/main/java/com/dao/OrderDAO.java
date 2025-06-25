@@ -1,3 +1,4 @@
+
 package com.dao;
 
 import java.sql.PreparedStatement;
@@ -7,6 +8,7 @@ import java.util.List;
 
 import com.DBAccess;
 import com.bean.CartItem;
+import com.bean.Product;
 
 public class OrderDAO extends DBAccess {
 
@@ -45,24 +47,38 @@ public class OrderDAO extends DBAccess {
 
 	public List<CartItem> getAllOrderIdByUserId(String userId) {
 		List<CartItem> list = new ArrayList<>();
-		String sql = "SELECT * FROM order_list WHERE user_Id = ?";
+
+		String sql = "SELECT o.*, p.pro_id, p.pro_name, p.pro_unit_num " +
+				"FROM order_list o " +
+				"JOIN product p ON o.order_code = p.pro_id " +
+				"WHERE o.user_id = ?";
 
 		try {
 			connect();
 			PreparedStatement ps = getConnection().prepareStatement(sql);
-
 			ps.setString(1, userId);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
+				// Lấy dữ liệu sản phẩm
+				Product p = new Product();
+				p.setProId(rs.getString("pro_id"));
+				p.setProName(rs.getString("pro_name"));
+				p.setProPrice(rs.getInt("pro_unit_num")); // Đơn giá theo đơn vị (単価)
+
+				// Tạo CartItem
 				CartItem o = new CartItem();
 				o.setOrderId(rs.getInt("order_id"));
 				o.setUserId(rs.getString("user_id"));
 				o.setUserName(rs.getString("user_name"));
 				o.setOrderCode(rs.getString("order_code"));
 				o.setOrderAmount(rs.getInt("order_amount"));
+				o.setQuantity(rs.getInt("order_amount")); // Đồng bộ số lượng
 				o.setOrderDay(rs.getDate("order_day"));
 				o.setOrderArrivedDay(rs.getDate("order_arrived_day"));
+				o.setProduct(p);
+				o.setDeliveryDate(rs.getString("order_arrived_day"));
+
 				list.add(o);
 			}
 
