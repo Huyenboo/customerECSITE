@@ -90,15 +90,20 @@ select, input[type="text"] {
 					<tr>
 						<td><%=user.getCompanyName()%></td>
 						<td>
-							<form action="<%=request.getContextPath()%>/newCustomerAllow" method="post" style="display: inline;">
-								<input type="hidden" name="userId" value="<%= user.getId() %>">
+							<form action="<%=request.getContextPath()%>/newCustomerAllow"
+								method="post" style="display: inline;">
+								<input type="hidden" name="userId" value="<%=user.getId()%>">
+								<input type="hidden" name="action" value="accept">
 								<button type="submit">承認</button>
 							</form>
-							<form action="" method="post"
-								style="display: inline;">
-								<input type="hidden" name="companyName" value=""> 
+
+							<form action="<%=request.getContextPath()%>/newCustomerAllow"
+								method="post" style="display: inline;">
+								<input type="hidden" name="userId" value="<%=user.getId()%>">
+								<input type="hidden" name="action" value="reject">
 								<button type="submit">不可</button>
 							</form>
+
 						</td>
 					</tr>
 					<%
@@ -107,7 +112,7 @@ select, input[type="text"] {
 					} else {
 					%>
 					<tr>
-						<td colspan="10">新規登録かいしゃがない</td>
+						<td colspan="10">新規登録がない</td>
 					</tr>
 					<%
 					}
@@ -115,31 +120,8 @@ select, input[type="text"] {
 				</tbody>
 
 			</table>
+
+
 		</div>
-
-		<!-- Phần thay đổi trạng thái -->
-		<div class="change-section">
-			<h3>ステータス変更</h3>
-			<form action="ReviewServlet" method="post">
-				<div>
-					<input type="text" name="searchKeyword" placeholder="会社名を入力">
-					<div>
-						<button type="submit" name="action" value="filter">検索</button>
-					</div>
-				</div>
-				<div>
-					<select name="statusFilter">
-						<option value="">ステータス</option>
-						<option value="承認">承認</option>
-						<option value="待機">待機</option>
-						<option value="不可">不可</option>
-					</select>
-				</div>
-
-			</form>
-		</div>
-
-	</div>
-
 </body>
 </html>

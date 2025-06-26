@@ -15,7 +15,12 @@ public class CartItem implements Serializable {
 	private Product product;
 	private int quantity;
 	private String deliveryDate;
-
+	
+	
+	CartItem item = new CartItem(
+		    orderId, userId, userName, orderCode, orderAmount,
+		    orderDay, orderArrivedDay, orderMemo, product, quantity, deliveryDate);
+	
 	public CartItem(Product product, int quantity) {
 		this.product = product;
 		this.quantity = quantity;

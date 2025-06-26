@@ -12,21 +12,21 @@ import com.bean.User;
 public class UserDAO extends DBAccess {
 	public ArrayList<User> userList() {
 		ArrayList<User> list = new ArrayList<>();
-		
+
 		String sql = "SELECT * FROM app_user";
-		
+
 		try {
 			connect();
 			PreparedStatement ps = getConnection().prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
 				User user = new User();
 				user.setCompanyId(rs.getString("company_id"));
 				user.setCompanyName(rs.getString("company_name"));
 				user.setCompanyAddress(rs.getString("company_address"));
 				user.setPresidentPhoneNum(rs.getString("president_phone_num"));
-				user.setManagerName(rs.getString("manager_name"));				
+				user.setManagerName(rs.getString("manager_name"));
 				user.setManagerPhoneNum(rs.getString("manager_phone_num"));
 				user.setManagerEmail(rs.getString("manager_email"));
 				user.setPassword(rs.getString("pass"));
@@ -37,7 +37,7 @@ public class UserDAO extends DBAccess {
 				user.setRejectionReason(rs.getString("rejection_reason"));
 				list.add(user);
 			}
-			
+
 			rs.close();
 			ps.close();
 		} catch (Exception e) {
@@ -45,151 +45,154 @@ public class UserDAO extends DBAccess {
 		} finally {
 			disconnect();
 		}
-		
+
 		return list.isEmpty() ? null : list;
 	}
-    // Mã hóa mật khẩu SHA-256
-    public String hashPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(password.getBytes());
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                hexString.append(String.format("%02x", b));
-            }
-            return hexString.toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    public boolean registerUser(User user) {
-        String sql = "INSERT INTO app_user (company_id,company_name, company_address, president_phone_num, manager_name, manager_phone_num, manager_email, pass, status, requested_at) " +
-                     "VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+	// Mã hóa mật khẩu SHA-256
+	public String hashPassword(String password) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			byte[] hash = md.digest(password.getBytes());
+			StringBuilder hexString = new StringBuilder();
+			for (byte b : hash) {
+				hexString.append(String.format("%02x", b));
+			}
+			return hexString.toString();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-        try {
-            connect();
-            PreparedStatement ps = getConnection().prepareStatement(sql);
-            ps.setString(1, user.getCompanyId());
-            ps.setString(2, user.getCompanyName());
-            ps.setString(3, user.getCompanyAddress());
-            ps.setString(4, user.getPresidentPhoneNum());
-            ps.setString(5, user.getManagerName());
-            ps.setString(6, user.getManagerPhoneNum());
-            ps.setString(7, user.getManagerEmail());
-            ps.setString(8, hashPassword(user.getPassword()));
-            ps.setString(9, "pending"); // status = pending
-            int result = ps.executeUpdate();
-            ps.close();
-            return result > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
-        }
-        return false;
-    }
-    public User loginUser(String phone, String rawPassword) {
-        String sql = "SELECT * FROM app_user WHERE manager_phone_num = ? AND pass = ?"; // chỉ cho phép đã được duyệt (status = 1)
+	public boolean registerUser(User user) {
+		String sql = "INSERT INTO app_user (company_id,company_name, company_address, president_phone_num, manager_name, manager_phone_num, manager_email, pass, status, requested_at) "
+				+
+				"VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
-        try {
-            connect();
-            PreparedStatement ps = getConnection().prepareStatement(sql);
-            ps.setString(1, phone);
-            ps.setString(2, hashPassword(rawPassword));  // hash để so sánh
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setString(1, user.getCompanyId());
+			ps.setString(2, user.getCompanyName());
+			ps.setString(3, user.getCompanyAddress());
+			ps.setString(4, user.getPresidentPhoneNum());
+			ps.setString(5, user.getManagerName());
+			ps.setString(6, user.getManagerPhoneNum());
+			ps.setString(7, user.getManagerEmail());
+			ps.setString(8, hashPassword(user.getPassword()));
+			ps.setString(9, "pending"); // status = pending
+			int result = ps.executeUpdate();
+			ps.close();
+			return result > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return false;
+	}
 
-            ResultSet rs = ps.executeQuery();
+	public User loginUser(String phone, String rawPassword) {
+		String sql = "SELECT * FROM app_user WHERE manager_phone_num = ? AND pass = ?"; // chỉ cho phép đã được duyệt (status = 1)
 
-            if (rs.next()) {
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setCompanyId(rs.getString("company_id"));
-                user.setCompanyName(rs.getString("company_name"));
-                user.setCompanyAddress(rs.getString("company_address")); 
-                user.setManagerName(rs.getString("manager_name"));
-                user.setManagerPhoneNum(rs.getString("manager_phone_num"));
-                user.setPassword(rs.getString("pass"));
-                user.setStatus(rs.getString("status"));
-                rs.close();
-                ps.close();
-                return user;
-            }
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setString(1, phone);
+			ps.setString(2, hashPassword(rawPassword)); // hash để so sánh
 
-            rs.close();
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
-        }
+			ResultSet rs = ps.executeQuery();
 
-        return null;
-    }
+			if (rs.next()) {
+				User user = new User();
+				user.setId(rs.getInt("id"));
+				user.setCompanyId(rs.getString("company_id"));
+				user.setCompanyName(rs.getString("company_name"));
+				user.setCompanyAddress(rs.getString("company_address"));
+				user.setManagerName(rs.getString("manager_name"));
+				user.setManagerPhoneNum(rs.getString("manager_phone_num"));
+				user.setPassword(rs.getString("pass"));
+				user.setStatus(rs.getString("status"));
+				rs.close();
+				ps.close();
+				return user;
+			}
 
-    // Kiểm tra mật khẩu hiện tại
-    public boolean checkCurrentPassword(String phone, String rawPassword) {
-    	String sql = "SELECT * FROM app_user WHERE manager_phone_num = ? AND pass = ? AND status = 'accept'";
+			rs.close();
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
 
-        try {
-            connect();
-            PreparedStatement ps = getConnection().prepareStatement(sql);
-            ps.setString(1, phone);
-            ps.setString(2, hashPassword(rawPassword));
-            ResultSet rs = ps.executeQuery();
+		return null;
+	}
 
-            boolean exists = rs.next();
-            rs.close(); ps.close();
-            return exists;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
-        }
+	// Kiểm tra mật khẩu hiện tại
+	public boolean checkCurrentPassword(String phone, String rawPassword) {
+		String sql = "SELECT * FROM app_user WHERE manager_phone_num = ? AND pass = ? AND status = 'accept'";
 
-        return false;
-    }
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setString(1, phone);
+			ps.setString(2, hashPassword(rawPassword));
+			ResultSet rs = ps.executeQuery();
 
-    // Cập nhật mật khẩu mới
-    public boolean updatePassword(String phone, String newPassword) {
-        String sql = "UPDATE app_user SET pass = ? WHERE manager_phone_num = ?";
+			boolean exists = rs.next();
+			rs.close();
+			ps.close();
+			return exists;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
 
-        try {
-            connect();
-            PreparedStatement ps = getConnection().prepareStatement(sql);
-            ps.setString(1, hashPassword(newPassword));
-            ps.setString(2, phone);
-            int result = ps.executeUpdate();
-            ps.close();
-            return result > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
-        }
+		return false;
+	}
 
-        return false;
-    }
-    
-    public List<User> getUserPending(){
-    	String sql ="SELECT * FROM app_user where status = ?";
-    	List<User> listUserPending = new ArrayList<>();
-    	
-    	try {
-    		connect();
-    		PreparedStatement ps = getConnection().prepareStatement(sql);
-    		
-    		
-    		ps.setString(1,"pending");
-    		ResultSet rs = ps.executeQuery();
-    		
-    		while(rs.next()) {
-    			User user = new User();
-    			user.setId(rs.getInt("id"));
-    			user.setCompanyId(rs.getString("company_id"));
-    			user.setCompanyName(rs.getString("company_name"));
-    			user.setCompanyAddress(rs.getString("company_address"));
+	// Cập nhật mật khẩu mới
+	public boolean updatePassword(String phone, String newPassword) {
+		String sql = "UPDATE app_user SET pass = ? WHERE manager_phone_num = ?";
+
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setString(1, hashPassword(newPassword));
+			ps.setString(2, phone);
+			int result = ps.executeUpdate();
+			ps.close();
+			return result > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+
+		return false;
+	}
+
+	public List<User> getUserPending() {
+		String sql = "SELECT * FROM app_user where status = ?";
+		List<User> listUserPending = new ArrayList<>();
+
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+
+			ps.setString(1, "pending");
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				User user = new User();
+				user.setId(rs.getInt("id"));
+				user.setCompanyId(rs.getString("company_id"));
+				user.setCompanyName(rs.getString("company_name"));
+				user.setCompanyAddress(rs.getString("company_address"));
 				user.setPresidentPhoneNum(rs.getString("president_phone_num"));
-				user.setManagerName(rs.getString("manager_name"));				
+				user.setManagerName(rs.getString("manager_name"));
 				user.setManagerPhoneNum(rs.getString("manager_phone_num"));
 				user.setManagerEmail(rs.getString("manager_email"));
 				user.setPassword(rs.getString("pass"));
@@ -199,8 +202,8 @@ public class UserDAO extends DBAccess {
 				user.setApprovedBy(rs.getInt("approved_by"));
 				user.setRejectionReason(rs.getString("rejection_reason"));
 				listUserPending.add(user);
-    		}
-			
+			}
+
 			rs.close();
 			ps.close();
 		} catch (Exception e) {
@@ -208,31 +211,55 @@ public class UserDAO extends DBAccess {
 		} finally {
 			disconnect();
 		}
-    	return listUserPending;
-    	
-    }
-    
-    public boolean userUpdateStatus(int userId) {
-    	
-   	String sql = "UPDATE app_user set status=? where id=? ";
-   	
-   	try {
-   		connect();
-   		PreparedStatement ps = getConnection().prepareStatement(sql);
-   		ps.setString(1,"accept");
-   		ps.setInt(2, userId);
-   		int result = ps.executeUpdate();
-        ps.close();
-        return result > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        disconnect();
-    }  
-   	return false;
-   		
-   		
-   	}
-    	
+		return listUserPending;
+
+	}
+
+//	public boolean userUpdateStatus(int userId) {
+//
+//		String sql = "UPDATE app_user set status=? where id=? ";
+//
+//		try {
+//			connect();
+//			PreparedStatement ps = getConnection().prepareStatement(sql);
+//			ps.setString(1, "pending");
+//			ps.setInt(2, userId);
+//			int result = ps.executeUpdate();
+//			ps.close();
+//			return result > 0;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			disconnect();
+//		}
+//		return false;
+//
+//	}
+	public boolean userUpdateStatus(int userId, String status) {
+
+	    String sql = "UPDATE app_user SET status = ? WHERE id = ?";
+
+	    try {
+	        connect();
+	        PreparedStatement ps = getConnection().prepareStatement(sql);
+	        ps.setString(1, status);  // Cho phép truyền vào bất kỳ trạng thái nào
+	        ps.setInt(2, userId);
+	        int result = ps.executeUpdate();
+	        ps.close();
+	        return result > 0;
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        disconnect();
+	    }
+	    return false;
+	}
+
+	public List<User> searchByName(String keyword) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+	
 
 }

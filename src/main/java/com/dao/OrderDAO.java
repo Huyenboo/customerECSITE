@@ -78,7 +78,7 @@ public class OrderDAO extends DBAccess {
 				o.setOrderArrivedDay(rs.getDate("order_arrived_day"));
 				o.setProduct(p);
 				o.setDeliveryDate(rs.getString("order_arrived_day"));
-
+//				o.setOrderMemo(rs.getString);
 				list.add(o);
 			}
 
@@ -92,4 +92,5 @@ public class OrderDAO extends DBAccess {
 
 		return list;
 	}
+	
 }
