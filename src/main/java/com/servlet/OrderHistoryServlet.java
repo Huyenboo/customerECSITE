@@ -14,7 +14,7 @@ import com.bean.CartItem;
 import com.dao.OrderDAO;
 
 @WebServlet("/OrderHistory")
-public class OrderHistory extends HttpServlet {
+public class OrderHistoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

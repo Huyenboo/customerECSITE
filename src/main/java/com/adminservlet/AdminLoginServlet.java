@@ -9,46 +9,61 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import com.adminbean.AdminUser;
-import com.admindao.AdminUserDAO;
+import com.adminbean.AdminUserBean;
+import com.admindao.AdminLoginDAO;
 
-@WebServlet("/adminLogin") 
+//ログイン時に使用する
+@WebServlet("/AdminLoginServlet")
 public class AdminLoginServlet extends HttpServlet {
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	private static final long serialVersionUID = 1L;
+
+    public AdminLoginServlet() {
+        super();
+      
+    }
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		// Lấy dữ liệu từ form
-		String userId = request.getParameter("userId");
-		String password = request.getParameter("password");
+		request.setCharacterEncoding("UTF-8");
 		
-		// DAO を呼び出すloginチェック、
-		AdminUserDAO dao = new AdminUserDAO();
-		AdminUser user = dao.login(userId, password);
+		String emp_id = request.getParameter("emp_id");
+		String pass = request.getParameter("pass");
 		
-		if (user != null) {
-			//sessionにuser 情報を保存
-			HttpSession session = request.getSession();
-			session.setAttribute("adminUser", user);
+		try {
 			
-			// Điều hướng theo role
-			
-			int role = user.getRoleId();
-
-			if ("role_admin".equals(role)) {
-				response.sendRedirect(request.getContextPath() + "/jsp/companyList");
-			} else if ("role_sales".equals(role)) {
-				response.sendRedirect(request.getContextPath() + "/jsp/salesPage.jsp");
-			} else if ("role_wholesale".equals(role)) {
-				response.sendRedirect(request.getContextPath() + "/jsp/order.jsp");
-			} else {
-				response.sendRedirect(request.getContextPath() + "/error.jsp");
-			}
-
-		} else {
-			// ログイン失敗 → login画面に戻す
-			request.setAttribute("error", "ユーザーIDまたはパスワードが正しくありません。");
-			request.getRequestDispatcher("/jsp/adminLogin.jsp").forward(request, response);
+			AdminLoginDAO dao = new AdminLoginDAO();
+		    AdminUserBean user = dao.login(emp_id, pass);
+		    
+		    if(user != null) {
+		    	
+		    	HttpSession session = request.getSession();
+		    	session.setAttribute("loginUser", user);
+		    	
+		    	switch (user.getRole_id()) {
+		    	case 1: //部長　実装はしてない
+		    		response.sendRedirect("admin/adminTop.jsp");
+		    		break;
+		    	case 2 ://営業画面
+		    		response.sendRedirect("admin/salesTop.jsp");
+		    		break;
+		    	case 3://管理者画面
+		    		response.sendRedirect("admin/managerTop.jsp");
+		    		break;
+		    	default:
+		    		session.invalidate();
+		    		request.setAttribute("error", "不正な権限です。");
+		    		request.getRequestDispatcher("admin/adminLogin.jsp").forward(request, response);
+		    	}
+		    	
+		    }else {
+		    	request.setAttribute("error", "社員番号または、パスワードが正しくありません。");
+		    	request.getRequestDispatcher("admin/adminLogin.jsp").forward(request, response);
+		    }
+		}catch(Exception e) {
+			throw new ServletException("ログイン処理中にエラーが発生しました。"+ e);
 		}
+
 	}
+
 }

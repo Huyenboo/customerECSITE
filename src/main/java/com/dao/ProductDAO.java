@@ -319,4 +319,30 @@ public class ProductDAO extends DBAccess {
 
 		return count;
 	}
+	
+	//_____________________________管理＿＿＿＿＿＿＿＿＿＿＿＿
+	public boolean deleteById(String id) throws Exception {
+	    String sql = "DELETE FROM product WHERE id = ?";
+	    connect();
+	    try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+	        ps.setString(1, id);  // カラムが VARCHAR 型なら正しい対応
+	        return ps.executeUpdate() > 0;
+	    } finally {
+	        disconnect();
+	    }
+	}
+	// 更新用 product 全項目更新（例：名前・単価・在庫・備考）
+	public boolean update(Product p) throws Exception {
+	    String sql = "UPDATE product SET pro_name=?, pro_unit=?, pro_unit_num=?, pro_memo=? WHERE id=?";
+	    connect();
+	    PreparedStatement ps = getConnection().prepareStatement(sql);
+	    ps.setString(1, p.getProName());
+	    ps.setString(2, p.getProUnit());
+	    ps.setInt(3, p.getProUnitNum());
+	    ps.setString(4, p.getProMemo());
+	    ps.setInt(5, p.getId());
+	    int r = ps.executeUpdate();
+	    disconnect();
+	    return r > 0;
+	}
 }
