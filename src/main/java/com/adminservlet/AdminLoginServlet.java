@@ -38,27 +38,27 @@ public class AdminLoginServlet extends HttpServlet {
 		    if(user != null) {
 		    	
 		    	HttpSession session = request.getSession();
-		    	session.setAttribute("AdminloginUser", user);
+		    	session.setAttribute("loginUser", user);
 		    	
 		    	switch (user.getRole_id()) {
 		    	case 1: //部長　実装はしてない
-		    		response.sendRedirect("admin/adminTop.jsp");
+		    		response.sendRedirect(request.getContextPath() +"/admin/adminTop.jsp");
 		    		break;
 		    	case 2 ://営業画面
-		    		response.sendRedirect("admin/salesTop.jsp");
+		    		response.sendRedirect(request.getContextPath() +"/admin/salesTop.jsp");
 		    		break;
 		    	case 3://管理者画面
-		    		response.sendRedirect("admin/managerTop.jsp");
+		    		response.sendRedirect(request.getContextPath() +"/admin/managerTop.jsp");
 		    		break;
 		    	default:
 		    		session.invalidate();
 		    		request.setAttribute("error", "不正な権限です。");
-		    		request.getRequestDispatcher("admin/adminLogin.jsp").forward(request, response);
+		    		request.getRequestDispatcher(request.getContextPath() +"/admin/adminLogin.jsp").forward(request, response);
 		    	}
 		    	
 		    }else {
 		    	request.setAttribute("error", "社員番号または、パスワードが正しくありません。");
-		    	request.getRequestDispatcher("admin/adminLogin.jsp").forward(request, response);
+		    	request.getRequestDispatcher(request.getContextPath() +"/admin/adminLogin.jsp").forward(request, response);
 		    }
 		}catch(Exception e) {
 			throw new ServletException("ログイン処理中にエラーが発生しました。"+ e);

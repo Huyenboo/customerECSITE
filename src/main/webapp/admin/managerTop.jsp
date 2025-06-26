@@ -3,7 +3,7 @@
 <%@ page import="com.adminbean.AdminUserBean" %>
 
 <%
-	AdminUserBean user = (AdminUserBean) session.getAttribute("AdminLoginUser");
+	AdminUserBean user = (AdminUserBean) session.getAttribute("loginUser");
 
 if (user == null) {
         response.sendRedirect("admin/adminLogin.jsp");
