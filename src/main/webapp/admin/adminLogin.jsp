@@ -1,9 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ログイン</title>
+    <title>管理者ログイン</title>
+    <%
+    String error = (String) request.getAttribute("error");
+    if (error != null) {
+%>
+    <p style="color:red;"><%= error %></p>
+<%
+    }
+%>
     <style>
         body {
             font-family: "Yu Gothic UI", sans-serif;
@@ -12,7 +21,6 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
         }
         .login-box {
             background-color: white;
@@ -26,12 +34,6 @@
         h1 {
             color: #2c7be5;
             margin-bottom: 30px;
-        }
-        label {
-            display: block;
-            text-align: left;
-            margin-bottom: 5px;
-            font-size: 14px;
         }
         input[type="text"], input[type="password"] {
             width: 100%;
@@ -49,37 +51,17 @@
             border: none;
             border-radius: 10px;
             font-size: 16px;
-            cursor: pointer;
-        }
-        a {
-            display: block;
-            margin-top: 15px;
-            font-size: 13px;
-            color: #2c7be5;
-            text-decoration: none;
-        }
-        .error {
-            color: red;
-            margin-bottom: 15px;
-            font-size: 14px;
         }
     </style>
 </head>
 <body>
 <div class="login-box">
-	<h1>ログイン</h1>
-	<% if (request.getAttribute("error") != null) { %>
-	    <div class="error"><%= request.getAttribute("error") %></div>
-	<% } %>
-	<form action="<%=request.getContextPath()%>/adminLogin" method="post">
-		<label for="userId">ユーザーID:</label>
-		<input type="text" id="userId" name="userId" required>
-
-		<label for="password">パスワード:</label>
-		<input type="password" id="password" name="password" required>
-
-		<button type="submit">ログイン</button>
-	</form>
+    <h1>管理者ログイン</h1>
+    <form action="<%=request.getContextPath()%>/AdminLoginServlet" method="post">
+        <input type="text" name="emp_id" placeholder="社員ID" required>
+        <input type="password" name="pass" placeholder="パスワード" required>
+        <button type="submit">ログイン</button>
+    </form>
 </div>
 </body>
 </html>

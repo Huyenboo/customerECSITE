@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.*, com.bean.company" %>
+<%@ page import="java.util.*,com.bean.company" %>
 
 <!DOCTYPE html>
 <html>
@@ -117,11 +117,11 @@
     <h2>顧客リスト</h2>
 
     <%
-        List<company> companyList = (List<company>) session.getAttribute("companyList");
+    List<bean.company> companyList = (List<bean.company>) session.getAttribute("companyList");
     %>
 
     <div class="summary">
-        <%= (companyList != null) ? companyList.size() : 0 %> 社
+        <%=(companyList != null) ? companyList.size() : 0%> 社
     </div>
 
     <table>
@@ -131,8 +131,8 @@
 
         </tr>
         <%
-            if (companyList != null && !companyList.isEmpty()) {
-                for (company c : companyList) {
+        if (companyList != null && !companyList.isEmpty()) {
+                        for (bean.company c : companyList) {
         %>
         <tr>
             <td><%= c.getCompanyName() %></td>

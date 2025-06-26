@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 
 		UserDAO dao = new UserDAO();
 		User user = dao.loginUser(phone, password);
-
+		
 		if (user == null) {
 			req.setAttribute("errMsg", "電話番号またはパスワードが違います");
 			req.getRequestDispatcher("/user/login.jsp").forward(req, resp);

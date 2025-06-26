@@ -185,7 +185,7 @@ input[type="number"] {
 			int maxPageToShow = 6;
 			int totalPageCount = totalPages;
 
-			// Tính trang bắt đầu & kết thúc dựa vào currentPage
+			//  currentPage　によって最初のページ番号や最後のページ番号を表示
 			int half = maxPageToShow / 2;
 			int startPage = currentPage - half;
 			int endPage = currentPage + half;
@@ -199,7 +199,7 @@ input[type="number"] {
 				startPage = Math.max(1, endPage - maxPageToShow + 1);
 			}
 
-			// Hiển thị nút trang
+			// ページを表示
 			for (int i = startPage; i <= endPage; i++) {
 				if (i == currentPage) {
 			%>
@@ -212,7 +212,7 @@ input[type="number"] {
 			}
 			}
 
-			// Nếu còn trang phía sau, hiện dấu ...
+			// 後ろのページがあれば ...を表示
 			if (endPage < totalPageCount) {
 			%>
 			<span>...</span> <a href="<%=baseUrl + totalPageCount%>"><%=totalPageCount%></a>
@@ -224,9 +224,6 @@ input[type="number"] {
 
 	</div>
 
-	<form action="checkout.jsp" method="get">
-		<button type="submit" class="submit-btn">購入に進む</button>
-	</form>
 
 
 

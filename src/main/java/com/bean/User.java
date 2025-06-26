@@ -129,4 +129,14 @@ public class User {
 	public void setRejectionReason(String rejectionReason) {
 		this.rejectionReason = rejectionReason;
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", companyId=" + companyId + ", companyName=" + companyName + ", companyAddress="
+				+ companyAddress + ", presidentPhoneNum=" + presidentPhoneNum + ", managerName=" + managerName
+				+ ", managerEmail=" + managerEmail + ", managerPhoneNum=" + managerPhoneNum + ", password=" + password
+				+ ", status=" + status + ", requestedAt=" + requestedAt + ", approvedAt=" + approvedAt + ", approvedBy="
+				+ approvedBy + ", rejectionReason=" + rejectionReason + "]";
+	}
+	
 }

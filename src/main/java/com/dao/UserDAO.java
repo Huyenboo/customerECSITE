@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.DBAccess;
 import com.bean.User;
@@ -20,21 +21,21 @@ public class UserDAO extends DBAccess {
 			ResultSet rs = ps.executeQuery();
 			
 			while (rs.next()) {
-				User c = new User();
-				c.setCompanyId(rs.getString("company_id"));
-				c.setCompanyName(rs.getString("company_name"));
-				c.setCompanyAddress(rs.getString("company_address"));
-				c.setPresidentPhoneNum(rs.getString("president_phone_num"));
-				c.setManagerName(rs.getString("manager_name"));				
-				c.setManagerPhoneNum(rs.getString("manager_phone_num"));
-				c.setManagerEmail(rs.getString("manager_email"));
-				c.setPassword(rs.getString("pass"));
-				c.setStatus(rs.getString("status"));
-				c.setRequestedAt(rs.getTimestamp("requested_at"));
-				c.setApprovedAt(rs.getTimestamp("approved_at"));
-				c.setApprovedBy(rs.getInt("approved_by"));
-				c.setRejectionReason(rs.getString("rejection_reason"));
-				list.add(c);
+				User user = new User();
+				user.setCompanyId(rs.getString("company_id"));
+				user.setCompanyName(rs.getString("company_name"));
+				user.setCompanyAddress(rs.getString("company_address"));
+				user.setPresidentPhoneNum(rs.getString("president_phone_num"));
+				user.setManagerName(rs.getString("manager_name"));				
+				user.setManagerPhoneNum(rs.getString("manager_phone_num"));
+				user.setManagerEmail(rs.getString("manager_email"));
+				user.setPassword(rs.getString("pass"));
+				user.setStatus(rs.getString("status"));
+				user.setRequestedAt(rs.getTimestamp("requested_at"));
+				user.setApprovedAt(rs.getTimestamp("approved_at"));
+				user.setApprovedBy(rs.getInt("approved_by"));
+				user.setRejectionReason(rs.getString("rejection_reason"));
+				list.add(user);
 			}
 			
 			rs.close();
@@ -168,4 +169,70 @@ public class UserDAO extends DBAccess {
 
         return false;
     }
+    
+    public List<User> getUserPending(){
+    	String sql ="SELECT * FROM app_user where status = ?";
+    	List<User> listUserPending = new ArrayList<>();
+    	
+    	try {
+    		connect();
+    		PreparedStatement ps = getConnection().prepareStatement(sql);
+    		
+    		
+    		ps.setString(1,"pending");
+    		ResultSet rs = ps.executeQuery();
+    		
+    		while(rs.next()) {
+    			User user = new User();
+    			user.setId(rs.getInt("id"));
+    			user.setCompanyId(rs.getString("company_id"));
+    			user.setCompanyName(rs.getString("company_name"));
+    			user.setCompanyAddress(rs.getString("company_address"));
+				user.setPresidentPhoneNum(rs.getString("president_phone_num"));
+				user.setManagerName(rs.getString("manager_name"));				
+				user.setManagerPhoneNum(rs.getString("manager_phone_num"));
+				user.setManagerEmail(rs.getString("manager_email"));
+				user.setPassword(rs.getString("pass"));
+				user.setStatus(rs.getString("status"));
+				user.setRequestedAt(rs.getTimestamp("requested_at"));
+				user.setApprovedAt(rs.getTimestamp("approved_at"));
+				user.setApprovedBy(rs.getInt("approved_by"));
+				user.setRejectionReason(rs.getString("rejection_reason"));
+				listUserPending.add(user);
+    		}
+			
+			rs.close();
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+    	return listUserPending;
+    	
+    }
+    
+    public boolean userUpdateStatus(int userId) {
+    	
+   	String sql = "UPDATE app_user set status=? where id=? ";
+   	
+   	try {
+   		connect();
+   		PreparedStatement ps = getConnection().prepareStatement(sql);
+   		ps.setString(1,"accept");
+   		ps.setInt(2, userId);
+   		int result = ps.executeUpdate();
+        ps.close();
+        return result > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        disconnect();
+    }  
+   	return false;
+   		
+   		
+   	}
+    	
+
 }
