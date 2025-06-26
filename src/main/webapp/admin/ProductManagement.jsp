@@ -91,7 +91,7 @@ if (keyword == null) {
 			<td><%=p.getProMemo() != null ? p.getProMemo() : ""%></td>
 			<td><a
 				href="<%=request.getContextPath()%>/EditProductServlet?id=<%=p.getProId()%>">変更</a>
-				| <a
+				 <a
 				href="<%=request.getContextPath()%>/DeleteProductServlet?id=<%=p.getProId()%>"
 				onclick="return confirm('削除しますか？');">削除</a></td>
 		</tr>
