@@ -3,9 +3,9 @@
 <%@ page import="com.adminbean.AdminUserBean" %>
 
 <%
-	AdminUserBean user = (AdminUserBean) session.getAttribute("loginAdminUser");
+	AdminUserBean user = (AdminUserBean) session.getAttribute("AdminLoginUser");
 
-    if (user == null) {
+if (user == null) {
         response.sendRedirect("admin/adminLogin.jsp");
         return;
     }

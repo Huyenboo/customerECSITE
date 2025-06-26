@@ -38,7 +38,7 @@ public class AdminLoginServlet extends HttpServlet {
 		    if(user != null) {
 		    	
 		    	HttpSession session = request.getSession();
-		    	session.setAttribute("loginUser", user);
+		    	session.setAttribute("AdminloginUser", user);
 		    	
 		    	switch (user.getRole_id()) {
 		    	case 1: //部長　実装はしてない

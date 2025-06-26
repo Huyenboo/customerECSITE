@@ -82,7 +82,7 @@ th {
 	<div class="header">
 
 		<div style="text-align: left; margin: 10px 0;">
-			<a href="<%=request.getContextPath()%>/admin/managerTop.jsp"
+			<a href="<%=request.getContextPath()%>/user/customer.jsp"
 				class="top-button">TOP へ</a>
 		</div>
 		<h1>注文履歴</h1>
