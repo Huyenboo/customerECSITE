@@ -13,7 +13,7 @@ List<User> list = (List<User>) request.getAttribute("listUserPending");
 <style>
 body {
 	font-family: "Yu Gothic UI", sans-serif;
-	background-color: #f0f8ff;
+	background-color: #ffffff;
 	padding: 30px;
 }
 

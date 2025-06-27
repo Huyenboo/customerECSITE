@@ -25,7 +25,7 @@ public class OrderHistoryServlet extends HttpServlet {
 		List<CartItem> listOrderDb = dao.getAllOrderIdByUserId(userId);
 
 		if (listOrderDb != null || !listOrderDb.isEmpty()) {
-			System.out.println("co list");
+			
 			//			HttpSession session = request.getSession();
 			request.setAttribute("listOrder", listOrderDb);
 			request.getRequestDispatcher("/user/orderHistory.jsp").forward(request, response);

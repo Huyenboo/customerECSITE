@@ -60,7 +60,7 @@ if (user == null) {
     <h3>ようこそ <%= user.getRole_name() %> <%= user.getEmp_name() %> さん</h3>
 
     <div class="menu-container">
-        <a href="<%=request.getContextPath()%>/HumanManagementServlet" class="menu-item">社員一覧・登録</a>
+        <a href="<%=request.getContextPath()%>/empListServlet" class="menu-item">社員一覧・登録</a>
         <a href="<%=request.getContextPath()%>/newCustomerAllow" class="menu-item">顧客審査</a>
 
     </div>

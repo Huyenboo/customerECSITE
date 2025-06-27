@@ -86,8 +86,8 @@ if (keyword == null) {
 		<tr>
 			<td><%=p.getProId()%></td>
 			<td><%=p.getProName()%></td>
-			<td>¥<%=p.getProUnit()%></td>
-			<td><%=p.getProUnitNum()%></td>
+			<td>¥<%=p.getProUnitNum()%></td>
+			<td><%=p.getProDiscard()%></td>
 			<td><%=p.getProMemo() != null ? p.getProMemo() : ""%></td>
 			<td><a
 				href="<%=request.getContextPath()%>/EditProductServlet?id=<%=p.getProId()%>">変更</a>
