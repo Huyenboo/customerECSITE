@@ -53,12 +53,12 @@ public class AdminLoginServlet extends HttpServlet {
 		    	default:
 		    		session.invalidate();
 		    		request.setAttribute("error", "不正な権限です。");
-		    		request.getRequestDispatcher(request.getContextPath() +"/admin/adminLogin.jsp").forward(request, response);
+		    		request.getRequestDispatcher("/admin/adminLogin.jsp").forward(request, response);
 		    	}
 		    	
 		    }else {
 		    	request.setAttribute("error", "社員番号または、パスワードが正しくありません。");
-		    	request.getRequestDispatcher(request.getContextPath() +"/admin/adminLogin.jsp").forward(request, response);
+		    	request.getRequestDispatcher("/admin/adminLogin.jsp").forward(request, response);
 		    }
 		}catch(Exception e) {
 			throw new ServletException("ログイン処理中にエラーが発生しました。"+ e);

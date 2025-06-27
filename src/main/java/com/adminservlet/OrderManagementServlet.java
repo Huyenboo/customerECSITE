@@ -25,9 +25,9 @@ public class OrderManagementServlet extends HttpServlet {
         
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		System.out.println("123");
         HttpSession session = request.getSession(false);
         AdminUserBean user = (session != null) ? (AdminUserBean) session.getAttribute("loginUser") : null;
         if (user == null) {
@@ -53,14 +53,16 @@ public class OrderManagementServlet extends HttpServlet {
         } else {
             orders = dao.getAllOrderIdByUserId("0"); // userId=0なら全取得を DAO で対応
         }
-
+        for(CartItem item : orders) {
+        	System.out.println(item.toString());
+        }
         request.setAttribute("orderList", orders);
         request.getRequestDispatcher("/admin/OrderManagement.jsp").forward(request, response);
     }
 	
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+//	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+//			throws ServletException, IOException {
 		
 //        String userIdParam = request.getParameter("userId");
 //        int userId = 0;
@@ -83,6 +85,6 @@ public class OrderManagementServlet extends HttpServlet {
 //        request.setAttribute("orderList", orders);
 //        request.getRequestDispatcher("/jsp/OrderManagement.jsp").forward(request, response);
    
-	}
+//	}
 
 }
