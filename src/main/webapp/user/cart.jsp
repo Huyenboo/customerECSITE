@@ -132,7 +132,7 @@ th {
 								required>
 					</td>
 
-					<td><%=p.getProUnitNum()%></td>
+					<td><%=p.getProPrice()%></td>
 
 					<td><input type="number" name="quantity"
 						value="<%=item.getQuantity()%>" min="1" style="width: 60px;"

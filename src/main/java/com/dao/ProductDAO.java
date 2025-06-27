@@ -319,30 +319,75 @@ public class ProductDAO extends DBAccess {
 
 		return count;
 	}
-	
+
 	//_____________________________管理＿＿＿＿＿＿＿＿＿＿＿＿
 	public boolean deleteById(String id) throws Exception {
-	    String sql = "DELETE FROM product WHERE id = ?";
-	    connect();
-	    try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
-	        ps.setString(1, id);  // カラムが VARCHAR 型なら正しい対応
-	        return ps.executeUpdate() > 0;
+		String sql = "DELETE FROM product WHERE id = ?";
+		connect();
+		try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+			ps.setString(1, id); // カラムが VARCHAR 型なら正しい対応
+			return ps.executeUpdate() > 0;
+		} finally {
+			disconnect();
+		}
+	}
+
+	// 更新用 product 全項目更新（例：名前・単価・在庫・備考）
+	public boolean update(Product p) throws Exception {
+		String sql = "UPDATE product SET pro_name=?, pro_unit=?, pro_unit_num=?, pro_memo=? WHERE id=?";
+		connect();
+		PreparedStatement ps = getConnection().prepareStatement(sql);
+		ps.setString(1, p.getProName());
+		ps.setString(2, p.getProUnit());
+		ps.setInt(3, p.getProUnitNum());
+		ps.setString(4, p.getProMemo());
+		ps.setInt(5, p.getId());
+		int r = ps.executeUpdate();
+		disconnect();
+		return r > 0;
+	}
+
+	//新商品
+	public List<Product> getNewestProducts() {
+	    List<Product> list = new ArrayList<>();
+	    String sql = "SELECT * FROM product ORDER BY id DESC LIMIT 20";
+	    try {
+	        connect(); 
+	        PreparedStatement ps = getConnection().prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            Product p = new Product();
+				p.setId(rs.getInt("id"));
+				p.setProId(rs.getString("pro_id"));
+				p.setProName(rs.getString("pro_name"));
+				p.setProNameShort(rs.getString("pro_name_short"));
+				p.setProEnName(rs.getString("pro_en_name"));
+				p.setProKanaName(rs.getString("pro_kana_name"));
+				p.setProFile(rs.getString("pro_file"));
+				p.setProSeedling(rs.getString("pro_seedling"));
+				p.setProBox(rs.getString("pro_box"));
+				p.setProCode1(rs.getString("pro_code1"));
+				p.setProCode2(rs.getString("pro_code2"));
+				p.setProStan(rs.getString("pro_stan"));
+				p.setProEnStan(rs.getString("pro_en_stan"));
+				p.setProSciName(rs.getString("pro_sci_name"));
+				p.setProUnitNum(rs.getInt("pro_unit_num"));
+				p.setProPrice(rs.getDouble("pro_price"));
+				p.setProUnit(rs.getString("pro_unit"));
+				p.setProDiscard(rs.getInt("pro_discard"));
+				p.setProMemo(rs.getString("pro_memo"));
+				list.add(p);
+	        }
+
+	        rs.close();
+	        ps.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
 	    } finally {
 	        disconnect();
 	    }
-	}
-	// 更新用 product 全項目更新（例：名前・単価・在庫・備考）
-	public boolean update(Product p) throws Exception {
-	    String sql = "UPDATE product SET pro_name=?, pro_unit=?, pro_unit_num=?, pro_memo=? WHERE id=?";
-	    connect();
-	    PreparedStatement ps = getConnection().prepareStatement(sql);
-	    ps.setString(1, p.getProName());
-	    ps.setString(2, p.getProUnit());
-	    ps.setInt(3, p.getProUnitNum());
-	    ps.setString(4, p.getProMemo());
-	    ps.setInt(5, p.getId());
-	    int r = ps.executeUpdate();
-	    disconnect();
-	    return r > 0;
+
+	    return list;
 	}
 }

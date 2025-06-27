@@ -109,7 +109,7 @@ th {
 a.btn-link {
 	display: inline-block;
 	padding: 12px 25px;
-	background-color: #aaa;
+	background-color: #2c7be5;
 	color: white;
 	border-radius: 10px;
 	text-decoration: none;
@@ -155,7 +155,7 @@ a.btn-link:hover {
 					<td><%=p.getProId()%></td>
 					<td><%=p.getProName()%></td>
 					<td><%=item.getOrderArrivedDay() != null ? item.getOrderArrivedDay().toString() : ""%></td>
-					<td><%=p.getProUnitNum()%> </td>
+					<td><%=p.getProPrice()%> </td>
 					<td><%=item.getQuantity()%></td>
 					<td><%=item.getOrderMemo() != null ? item.getOrderMemo() : ""%></td>
 					<td><%=subtotal%> 円</td>

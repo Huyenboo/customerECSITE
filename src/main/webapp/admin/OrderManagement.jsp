@@ -1,34 +1,92 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.List, com.adminbean.AdminUserBean, com.bean.CartItem" %>
 <%
-	AdminUserBean user = (AdminUserBean) session.getAttribute("loginUser");	
+    AdminUserBean user = (AdminUserBean) session.getAttribute("loginUser");    
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/salesTop.jsp");
         return;
     }
 %>
-<html><head><title>注文管理</title>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>注文管理</title>
 <style>
-.container { max-width:900px; margin:20px auto; }
-table { width:100%; border-collapse:collapse; }
-th, td { border:1px solid #333; padding:4px; font-size:90%; }
-.order-header { background:#eee; }
-.controls { margin-bottom:15px; }
+body {
+    font-family: "Yu Gothic UI", sans-serif;
+    background-color: #f9f9f9;
+}
+h1 { text-align: center; margin-top: 20px; }
+.container { max-width: 950px; margin: 20px auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+th, td { border: 1px solid #333; padding: 5px; text-align: center; font-size: 14px; }
+th { background: #eee; }
+.search-section { margin: 15px 0; text-align: center; }
+button, .btn-link { padding: 5px 10px; margin: 0 5px; }
+a.btn-link { text-decoration: none; background: #ddd; border: 1px solid #aaa; }
 </style>
-</head><body>
+</head>
+<body>
+
 <div class="container">
-  <h1>注文管理</h1>
-  <p><%= user.getEmp_name() %> さん（<%= user.getRole_name() %>）</p>
+    <h1>注文管理</h1>
+    <p><%= user.getEmp_name() %> さん（<%= user.getRole_name() %>）</p>
 
-  <div class="controls">
-    <form method="get" action="OrderManagementServlet" style="display:inline;">
-      顧客ID：
-      <input type="text" name="userId" value="<%= request.getParameter("userId")==null ? "" : request.getParameter("userId") %>" />
-      <input type="submit" value="検索" />
-    </form>
-    <a href="<%= request.getContextPath()%>jsp/salesTop.jsp">TOPへ戻る</a>
-  </div>
+    <div class="search-section">
+        <form method="get" action="OrderManagementServlet" style="display:inline;">
+            顧客ID：
+            <input type="text" name="userId" value="<%= request.getParameter("userId") == null ? "" : request.getParameter("userId") %>" />
+            <input type="submit" value="検索" />
+        </form>
+    </div>
 
-  
+    <table>
+        <tr>
+            <th>発注日</th>
+            <th>注文ID</th>
+            <th>顧客名</th>
+            <th>商品ID</th>
+            <th>商品名</th>
+            <th>数量</th>
+            <th>単価</th>
+            <th>小計</th>
+            <th>お届け予定日</th>
+            <th>備考</th>
+            <th>編集</th>
+        </tr>
+
+        <%
+        @SuppressWarnings("unchecked")
+        List<CartItem> orders = (List<CartItem>) request.getAttribute("orderList");
+        if (orders != null && !orders.isEmpty()) {
+            for (CartItem ci : orders) {
+        %>
+        <tr>
+            <td><%= ci.getOrderDay() %></td>
+            <td><%= ci.getOrderId() %></td>
+            <td><%= ci.getUserName() %>A社</td>
+            <td><%= ci.getProduct().getProId() %></td>
+            <td><%= ci.getProduct().getProName() %></td>
+            <td><%= ci.getQuantity() %></td>
+            <td><%= ci.getProduct().getProUnitNum() %></td>
+            <td><%= ci.getSubtotal() %></td>
+            <td><%= ci.getDeliveryDate() %></td>
+            <td><%= ci.getOrderMemo() != null ? ci.getOrderMemo() : "" %></td>
+            <td>
+                <a href="OrderDetailServlet?id=<%= ci.getOrderId() %>">詳細</a>
+                <a href="OrderEditServlet?id=<%= ci.getOrderId() %>">編集</a>
+                <a href="OrderDeleteServlet?id=<%= ci.getOrderId() %>" onclick="return confirm('本当に削除しますか？');">削除</a>
+            </td>
+        </tr>
+        <% }
+        } else { %>
+        <tr><td colspan="11">該当する注文履歴がありません。</td></tr>
+        <% } %>
+    </table>
+
+    <br>
+    <a href="<%= request.getContextPath() %>/jsp/salesTop.jsp" class="btn-link">TOPへ戻る</a>
 </div>
-</body></html>
+
+</body>
+</html>
