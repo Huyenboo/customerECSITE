@@ -92,5 +92,53 @@ public class OrderDAO extends DBAccess {
 
 		return list;
 	}
+	
+	
+	//chinh sua order 
+	public CartItem getOrderById(int orderId) {
+	    CartItem order = null;
+	    String sql = """
+	        SELECT o.*, u.user_name, p.pro_name
+	        FROM orders o
+	        JOIN user u ON o.user_id = u.user_id
+	        JOIN product p ON o.product_id = p.pro_id
+	        WHERE o.order_id = ?
+	    """;
+
+	    try {
+	        connect();
+	        PreparedStatement ps = getConnection().prepareStatement(sql);
+	        ps.setInt(1, orderId);
+	        ResultSet rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            order = new CartItem();
+	            order.setOrderId(rs.getInt("order_id"));
+	            order.setUserId(rs.getString("user_id"));
+	            order.setUserName(rs.getString("user_name"));
+	            order.setOrderCode(rs.getString("order_code"));
+	            order.setOrderAmount(rs.getInt("order_amount"));
+	            order.setOrderDay(rs.getDate("order_day"));
+	            order.setOrderArrivedDay(rs.getDate("order_arrived_day"));
+	            order.setOrderMemo(rs.getString("order_memo"));
+	            order.setQuantity(rs.getInt("quantity"));
+	            order.setDeliveryDate(rs.getString("delivery_date"));
+
+	            // Set product thông tin
+	            Product p = new Product();
+	            p.setProName(rs.getString("pro_name"));
+	            order.setProduct(p);
+	        }
+
+	        rs.close();
+	        ps.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        disconnect();
+	    }
+
+	    return order;
+	}
 
 }

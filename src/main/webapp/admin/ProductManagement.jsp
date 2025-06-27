@@ -75,7 +75,6 @@ if (keyword == null) {
 			<th>商品ID</th>
 			<th>商品名</th>
 			<th>単価</th>
-			<th>在庫数</th>
 			<th>備考</th>
 			<th>操作</th>
 		</tr>
@@ -86,8 +85,7 @@ if (keyword == null) {
 		<tr>
 			<td><%=p.getProId()%></td>
 			<td><%=p.getProName()%></td>
-			<td>¥<%=p.getProUnitNum()%></td>
-			<td><%=p.getProDiscard()%></td>
+			<td>¥<%=p.getProPrice()%></td>
 			<td><%=p.getProMemo() != null ? p.getProMemo() : ""%></td>
 			<td><a
 				href="<%=request.getContextPath()%>/EditProductServlet?id=<%=p.getProId()%>">変更</a>
