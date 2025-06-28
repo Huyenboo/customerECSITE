@@ -152,7 +152,8 @@ to {
 		</form>
 
 		<div class="link">
-			すでにアカウントをお持ちのお客様は <a href="login.jsp">こちら</a>
+			すでにアカウントをお持ちのお客様は <a href="<%=request.getContextPath()%>/user/login.jsp">こちら</a>
+
 		</div>
 	</div>
 </body>
