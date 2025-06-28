@@ -10,7 +10,7 @@ int total = 0;
 <meta charset="UTF-8">
 <title>カート情報</title>
 <style>
-/* CSS giữ nguyên của bạn */
+
 body {
 	font-family: "Yu Gothic UI", sans-serif;
 	background-color: #e6f0fa;
@@ -117,7 +117,9 @@ th {
 				if (cartList != null && !cartList.isEmpty()) {
 					for (CartItem item : cartList) {
 						Product p = item.getProduct();
-						int subtotal = item.getSubtotal();
+						double proPrice = p.getProPrice();
+						int quantity = item.getQuantity();
+						int subtotal = item.getSubtotal(proPrice);
 						total += subtotal;
 				%>
 				<tr>

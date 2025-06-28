@@ -24,13 +24,6 @@ public class Product {
 	//    private BigDecimal proPrice;
 	//    private String proExe;
 
-	public double getProPrice() {
-		return proPrice;
-	}
-
-	public void setProPrice(double proPrice) {
-		this.proPrice = proPrice;
-	}
 
 	public int getId() {
 		return Id;
@@ -176,8 +169,8 @@ public class Product {
 		this.proMemo = proMemo;
 	}
 
-	//    public BigDecimal getProPrice() { return proPrice; }
-	//    public void setProPrice(BigDecimal proPrice) { this.proPrice = proPrice; }
+	    public double getProPrice() { return proPrice; }
+	    public void setProPrice(double proPrice) { this.proPrice = proPrice; }
 	//
 	//    public String getProExe() { return proExe; }
 	//    public void setProExe(String proExe) { this.proExe = proExe; }

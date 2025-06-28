@@ -4,148 +4,149 @@ import java.io.Serializable;
 import java.sql.Date;
 
 public class CartItem implements Serializable {
-        private int orderId;
-        private String userId;
-        private String userName;
-        private String orderCode;
-        private int orderAmount;
-        private Date orderDay;
-        private Date orderArrivedDay;
-        private String orderMemo;
-        private Product product;
-        private int quantity;
-        private String deliveryDate;
+	private int orderId;
+	private String userId;
+	private String userName;
+	private String orderCode;
+	private int orderAmount;
+	private Date orderDay;
+	private Date orderArrivedDay;
+	private String orderMemo;
+	private Product product;
+	private int quantity;
+	private String deliveryDate;
 
-        public CartItem(Product product, int quantity) {
-                this.product = product;
-                this.quantity = quantity;
-                this.deliveryDate = "未定"; // default value
-        }
+	public CartItem(Product product, int quantity) {
+		this.product = product;
+		this.quantity = quantity;
+		this.deliveryDate = "未定"; // default value
+	}
 
-        public CartItem(Product product, int quantity, String deliveryDate) {
-                this.product = product;
-                this.quantity = quantity;
-                this.deliveryDate = deliveryDate;
-        }
+	public CartItem(Product product, int quantity, String deliveryDate) {
+		this.product = product;
+		this.quantity = quantity;
+		this.deliveryDate = deliveryDate;
+	}
 
-        public CartItem(int orderId, String userId, String userName, String orderCode, int orderAmount, Date orderDay,
-                        Date orderArrivedDay, String orderMemo, Product product, int quantity, String deliveryDate) {
-                super();
-                this.orderId = orderId;
-                this.userId = userId;
-                this.userName = userName;
-                this.orderCode = orderCode;
-                this.orderAmount = orderAmount;
-                this.orderDay = orderDay;
-                this.orderArrivedDay = orderArrivedDay;
-                this.orderMemo = orderMemo;
-                this.product = product;
-                this.quantity = quantity;
-                this.deliveryDate = deliveryDate;
-        }
+	public CartItem(int orderId, String userId, String userName, String orderCode, int orderAmount, Date orderDay,
+			Date orderArrivedDay, String orderMemo, Product product, int quantity, String deliveryDate) {
+		super();
+		this.orderId = orderId;
+		this.userId = userId;
+		this.userName = userName;
+		this.orderCode = orderCode;
+		this.orderAmount = orderAmount;
+		this.orderDay = orderDay;
+		this.orderArrivedDay = orderArrivedDay;
+		this.orderMemo = orderMemo;
+		this.product = product;
+		this.quantity = quantity;
+		this.deliveryDate = deliveryDate;
+	}
 
-        public CartItem() {
-            
-        }
+	public CartItem() {
 
-        public Product getProduct() {
-                return product;
-        }
+	}
 
-        public int getQuantity() {
-                return quantity;
-        }
+	public Product getProduct() {
+		return product;
+	}
 
-        public void setQuantity(int quantity) {
-                this.quantity = quantity;
-        }
+	public int getQuantity() {
+		return quantity;
+	}
 
-        public String getDeliveryDate() {
-                return deliveryDate;
-        }
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
-        public void setDeliveryDate(String deliveryDate) {
-                this.deliveryDate = deliveryDate;
-        }
+	public String getDeliveryDate() {
+		return deliveryDate;
+	}
 
-        public int getSubtotal() {
-                return product.getProUnitNum() * quantity;
-        }
+	public void setDeliveryDate(String deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+	
 
-        public int getOrderId() {
-                return orderId;
-        }
+	public int getSubtotal(double proPrice) {
+		return (int)proPrice * this.quantity;
+	}
 
-        public void setOrderId(int orderId) {
-                this.orderId = orderId;
-        }
+	public int getOrderId() {
+		return orderId;
+	}
 
-        public String getUserId() {
-                return userId;
-        }
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 
-        public void setUserId(String userId) {
-                this.userId = userId;
-        }
+	public String getUserId() {
+		return userId;
+	}
 
-        public String getUserName() {
-                return userName;
-        }
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
-        public void setUserName(String userName) {
-                this.userName = userName;
-        }
+	public String getUserName() {
+		return userName;
+	}
 
-        public String getOrderCode() {
-                return orderCode;
-        }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-        public void setOrderCode(String orderCode) {
-                this.orderCode = orderCode;
-        }
+	public String getOrderCode() {
+		return orderCode;
+	}
 
-        public int getOrderAmount() {
-                return orderAmount;
-        }
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
+	}
 
-        public void setOrderAmount(int orderAmount) {
-                this.orderAmount = orderAmount;
-        }
+	public int getOrderAmount() {
+		return orderAmount;
+	}
 
-        public Date getOrderDay() {
-                return orderDay;
-        }
+	public void setOrderAmount(int orderAmount) {
+		this.orderAmount = orderAmount;
+	}
 
-        public void setOrderDay(Date orderDay) {
-                this.orderDay = orderDay;
-        }
+	public Date getOrderDay() {
+		return orderDay;
+	}
 
-        public Date getOrderArrivedDay() {
-                return orderArrivedDay;
-        }
+	public void setOrderDay(Date orderDay) {
+		this.orderDay = orderDay;
+	}
 
-        public void setOrderArrivedDay(Date orderArrivedDay) {
-                this.orderArrivedDay = orderArrivedDay;
-        }
+	public Date getOrderArrivedDay() {
+		return orderArrivedDay;
+	}
 
-        public String getOrderMemo() {
-                return orderMemo;
-        }
+	public void setOrderArrivedDay(Date orderArrivedDay) {
+		this.orderArrivedDay = orderArrivedDay;
+	}
 
-        public void setOrderMemo(String orderMemo) {
-                this.orderMemo = orderMemo;
-        }
+	public String getOrderMemo() {
+		return orderMemo;
+	}
 
-        public void setProduct(Product product) {
-                this.product = product;
-        }
+	public void setOrderMemo(String orderMemo) {
+		this.orderMemo = orderMemo;
+	}
 
-        @Override
-        public String toString() {
-                return "CartItem [orderId=" + orderId + ", userId=" + userId + ", userName=" + userName + ", orderCode="
-                                + orderCode + ", orderAmount=" + orderAmount + ", orderDay=" + orderDay + ", orderArrivedDay="
-                                + orderArrivedDay + ", orderMemo=" + orderMemo + ", product=" + product + ", quantity=" + quantity
-                                + ", deliveryDate=" + deliveryDate + "]";
-        }
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	@Override
+	public String toString() {
+		return "CartItem [orderId=" + orderId + ", userId=" + userId + ", userName=" + userName + ", orderCode="
+				+ orderCode + ", orderAmount=" + orderAmount + ", orderDay=" + orderDay + ", orderArrivedDay="
+				+ orderArrivedDay + ", orderMemo=" + orderMemo + ", product=" + product + ", quantity=" + quantity
+				+ ", deliveryDate=" + deliveryDate + "]";
+	}
 
 }

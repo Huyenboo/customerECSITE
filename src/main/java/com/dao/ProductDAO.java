@@ -349,15 +349,15 @@ public class ProductDAO extends DBAccess {
 
 	//新商品
 	public List<Product> getNewestProducts() {
-	    List<Product> list = new ArrayList<>();
-	    String sql = "SELECT * FROM product ORDER BY id DESC LIMIT 20";
-	    try {
-	        connect(); 
-	        PreparedStatement ps = getConnection().prepareStatement(sql);
-	        ResultSet rs = ps.executeQuery();
+		List<Product> list = new ArrayList<>();
+		String sql = "SELECT * FROM product ORDER BY id DESC LIMIT 20";
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
 
-	        while (rs.next()) {
-	            Product p = new Product();
+			while (rs.next()) {
+				Product p = new Product();
 				p.setId(rs.getInt("id"));
 				p.setProId(rs.getString("pro_id"));
 				p.setProName(rs.getString("pro_name"));
@@ -378,16 +378,16 @@ public class ProductDAO extends DBAccess {
 				p.setProDiscard(rs.getInt("pro_discard"));
 				p.setProMemo(rs.getString("pro_memo"));
 				list.add(p);
-	        }
+			}
 
-	        rs.close();
-	        ps.close();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    } finally {
-	        disconnect();
-	    }
+			rs.close();
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
 
-	    return list;
+		return list;
 	}
 }

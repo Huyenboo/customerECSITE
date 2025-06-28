@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="com.bean.OrderBean, com.bean.Product" %>
+<%@ page import="com.bean.CartItem, com.bean.Product" %>
 <%
-    OrderBean order = (OrderBean) request.getAttribute("orderEdit");
+    CartItem order = (CartItem) request.getAttribute("orderEdit");
     if (order == null) {
         response.sendRedirect(request.getContextPath() + "/OrderListServlet");
         return;

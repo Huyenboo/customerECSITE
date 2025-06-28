@@ -18,7 +18,7 @@ import com.dao.UserDAO;
 public class HumanManagementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static final int PAGE_SIZE = 5;  // số dòng mỗi trang
+	private static final int PAGE_SIZE = 5; // số dòng mỗi trang
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -31,12 +31,14 @@ public class HumanManagementServlet extends HttpServlet {
 		}
 
 		String keyword = request.getParameter("keyword");
-		if (keyword == null) keyword = "";
+		if (keyword == null)
+			keyword = "";
 
 		int page = 1;
 		try {
 			page = Integer.parseInt(request.getParameter("page"));
-			if (page <= 0) page = 1;
+			if (page <= 0)
+				page = 1;
 		} catch (Exception e) {
 			page = 1;
 		}

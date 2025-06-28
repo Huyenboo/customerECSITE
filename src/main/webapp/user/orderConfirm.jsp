@@ -146,10 +146,13 @@ a.btn-link:hover {
 			</thead>
 			<tbody>
 				<%
-				for (CartItem item : cartList) {
-					Product p = item.getProduct();
-					int subtotal = item.getSubtotal();
-					total += subtotal;
+				if (cartList != null && !cartList.isEmpty()) {
+					for (CartItem item : cartList) {
+						Product p = item.getProduct();
+						double proPrice = p.getProPrice();
+						int quantity = item.getQuantity();
+						int subtotal = item.getSubtotal(proPrice);
+						total += subtotal;
 				%>
 				<tr>
 					<td><%=p.getProId()%></td>
@@ -159,9 +162,10 @@ a.btn-link:hover {
 					<td><%=item.getQuantity()%></td>
 					<td><%=item.getOrderMemo() != null ? item.getOrderMemo() : ""%></td>
 					<td><%=subtotal%> 円</td>
+				
 				</tr>
 				<%
-				}
+				}}
 				%>
 			</tbody>
 		</table>
@@ -183,8 +187,7 @@ a.btn-link:hover {
 
 				<div class="buttons">
 					<button type="submit" class="btn">注文を確定する</button>
-					<a href="<%=request.getContextPath()%>/user/cart.jsp"
-						class="btn-link">カートへ戻る</a>
+					<a href="<%=request.getContextPath()%>/user/cart.jsp" class="btn-link">カートへ戻る</a>
 				</div>
 			</form>
 		</div>
