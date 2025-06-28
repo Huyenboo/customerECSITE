@@ -2,7 +2,8 @@
 <%@ page import="java.util.List, com.adminbean.AdminUserBean"%>
 <%
 List<AdminUserBean> empList = (List<AdminUserBean>) request.getAttribute("empList");
-String keyword = request.getParameter("keyword") != null ? request.getParameter("keyword") : "";
+String keyword = (String) request.getAttribute("keyword");
+if (keyword == null) keyword = "";
 %>
 <html>
 <head>
@@ -87,16 +88,14 @@ th {
 		<h1>社員一覧</h1>
 
 		<div style="margin-bottom: 10px;">
-			<button
-				onclick="location.href='<%=request.getContextPath()%>/admin/newEmp.jsp'">新規登録</button>
+			<button onclick="location.href='<%=request.getContextPath()%>/admin/newEmp.jsp'">新規登録</button>
 		</div>
 
 		<div class="search-box">
-        <form action="<%=request.getContextPath()%>/SearchEmployeeServlet" method="get">
-            <input type="text" name="keyword" placeholder="社員番号または社員名で検索" value="<%=keyword%>">
-            <button type="submit">検索</button>
-        </form>
-			
+			<form action="<%=request.getContextPath()%>/SearchEmployeeServlet" method="get">
+				<input type="text" name="keyword" placeholder="社員番号または社員名で検索" value="<%=keyword%>">
+				<button type="submit">検索</button>
+			</form>
 		</div>
 
 		<table>
@@ -116,17 +115,16 @@ th {
 			<tr>
 				<td><%=emp.getEmp_id()%></td>
 				<td><%=emp.getEmp_name()%></td>
-				<td><%=emp.getRole_id()%></td>
+				<td><%=emp.getRole_name()%></td> <!-- Hiển thị tên phòng ban -->
 				<td><%=emp.getEmp_position()%></td>
-				<td><%=emp.getPass()%></td>
-				<td><a
-					href="<%=request.getContextPath()%>/UpdateEmployeeServlet?userId=<%=emp.getEmp_id()%>"
-					class="link-btn">変更</a> <a
-					href="<%=request.getContextPath()%>/EmployeeDeleteServlet?id=<%=emp.getId()%>"
-					class="link-btn" onclick="return confirm('本当に削除しますか？');">削除</a></td>
+				<td>******</td> <!-- Không hiển thị mật khẩu thật -->
+				<td>
+					<a href="<%=request.getContextPath()%>/UpdateEmployeeServlet?userId=<%=emp.getEmp_id()%>" class="link-btn">変更</a>
+					<a href="<%=request.getContextPath()%>/EmployeeDeleteServlet?id=<%=emp.getId()%>" class="link-btn" onclick="return confirm('本当に削除しますか？');">削除</a>
+				</td>
 			</tr>
 			<%
-			}
+				}
 			} else {
 			%>
 			<tr>
@@ -136,6 +134,23 @@ th {
 			}
 			%>
 		</table>
+
+		<!-- Phân trang -->
+		<div>
+			<%
+				int totalPages = (request.getAttribute("totalPages") != null) ? (Integer) request.getAttribute("totalPages") : 1;
+				int currentPage = (request.getAttribute("currentPage") != null) ? (Integer) request.getAttribute("currentPage") : 1;
+			%>
+			<div style="margin-top: 20px;">
+				<% for (int i = 1; i <= totalPages; i++) { %>
+					<% if (i == currentPage) { %>
+						<strong><%= i %></strong>
+					<% } else { %>
+						<a href="<%=request.getContextPath()%>/SearchEmployeeServlet?keyword=<%=keyword%>&page=<%=i%>"><%= i %></a>
+					<% } %>
+				<% } %>
+			</div>
+		</div>
 
 		<div class="top-btn">
 			<form action="<%=request.getContextPath()%>/admin/managerTop.jsp">

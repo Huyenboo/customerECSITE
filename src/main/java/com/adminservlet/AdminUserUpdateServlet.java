@@ -1,6 +1,7 @@
 package com.adminservlet;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,68 +14,104 @@ import com.admindao.EmpDAO;
 
 @WebServlet("/UpdateEmployeeServlet")
 public class AdminUserUpdateServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest req, HttpServletResponse rep) {
-		getServletContext().log("ok");
-		String userId = req.getParameter("userId");
-		EmpDAO empDAO = new EmpDAO();
-		AdminUserBean employee = empDAO.getEmplById(userId);
-		req.setAttribute("employee", employee);
-		try {
-			req.getRequestDispatcher("/admin/newEmp.jsp").forward(req, rep);
-		} catch (ServletException | IOException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			getServletContext().log("loi");
-		}
-		;
-	}
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+        String empId = req.getParameter("userId");
 
-		request.setCharacterEncoding("UTF-8");
+        if (empId == null || empId.isEmpty()) {
+            resp.sendRedirect(req.getContextPath() + "/empListServlet");
+            return;
+        }
 
-		try {
-			// Kiểm tra đăng nhập
-			AdminUserBean loginUser = (AdminUserBean) request.getSession().getAttribute("loginUser");
-			if (loginUser == null) {
-				response.sendRedirect(request.getContextPath() + "/ReturnAdminLoginServlet");
-				return;
-			}
+        EmpDAO dao = new EmpDAO();
+        AdminUserBean user = dao.getEmplById(empId);
 
-			// Nhận dữ liệu từ form
-			String emp_id = request.getParameter("emp_id");
-			String emp_name = request.getParameter("emp_name");
-			String emp_position = request.getParameter("emp_position");
-			String pass = request.getParameter("pass");
-			int role_id = Integer.parseInt(request.getParameter("role_id"));
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/empListServlet");
+            return;
+        }
 
-			// Gán vào Bean
-			AdminUserBean user = new AdminUserBean();
-			user.setEmp_id(emp_id);
-			user.setEmp_name(emp_name);
-			user.setEmp_position(emp_position);
-			user.setPass(pass);
-			user.setRole_id(role_id);
+        req.setAttribute("userEdit", user);
+        req.getRequestDispatcher("/admin/adminUserEdit.jsp").forward(req, resp);
+    }
 
-			// Cập nhật
-			EmpDAO dao = new EmpDAO();
-			boolean success = dao.updateUser(user);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-			if (success) {
-				response.sendRedirect(request.getContextPath() + "/AdminUserListServlet");
-			} else {
-				request.setAttribute("errorMsg", "更新に失敗しました。");
-				request.setAttribute("userEdit", user);
-				request.getRequestDispatcher("/admin/adminUserEdit.jsp").forward(request, response);
-			}
+        request.setCharacterEncoding("UTF-8");
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("errorMsg", "システムエラーが発生しました。");
-			request.getRequestDispatcher("/admin/adminUserEdit.jsp").forward(request, response);
-		}
-	}
+        try {
+            AdminUserBean loginUser = (AdminUserBean) request.getSession().getAttribute("loginUser");
+            if (loginUser == null) {
+                response.sendRedirect(request.getContextPath() + "/ReturnAdminLoginServlet");
+                return;
+            }
+
+            String emp_id = request.getParameter("emp_id");
+            String emp_name = request.getParameter("emp_name");
+            String emp_position = request.getParameter("emp_position");
+            String pass = request.getParameter("pass");
+            String roleStr = request.getParameter("role_id");
+
+            boolean hasError = false;
+            String errorMsg = "";
+
+            if (emp_name == null || emp_name.isEmpty()
+                    || emp_position == null || emp_position.isEmpty()
+                    || pass == null || pass.isEmpty()
+                    || roleStr == null || roleStr.isEmpty()) {
+                hasError = true;
+                errorMsg = "未入力項目があります。";
+            } else if (emp_name.length() > 100 || emp_position.length() > 50 || pass.length() > 50) {
+                hasError = true;
+                errorMsg = "文字数もしくは形式が正しくありません。";
+            }
+
+            int role_id = 0;
+            try {
+                role_id = Integer.parseInt(roleStr);
+                if (role_id < 1 || role_id > 3) {
+                    hasError = true;
+                    errorMsg = "権限の選択が正しくありません。";
+                }
+            } catch (Exception e) {
+                hasError = true;
+                errorMsg = "権限の選択が正しくありません。";
+            }
+
+            AdminUserBean user = new AdminUserBean();
+            user.setEmp_id(emp_id);
+            user.setEmp_name(emp_name);
+            user.setEmp_position(emp_position);
+            user.setPass(pass);
+            user.setRole_id(role_id);
+
+            if (hasError) {
+                request.setAttribute("errorMsg", errorMsg);
+                request.setAttribute("userEdit", user);
+                request.getRequestDispatcher("/admin/adminUserEdit.jsp").forward(request, response);
+                return;
+            }
+
+            EmpDAO dao = new EmpDAO();
+            boolean success = dao.updateUser(user);
+
+            if (success) {
+                String msg = URLEncoder.encode("登録が完了しました。", "UTF-8");
+                response.sendRedirect(request.getContextPath() + "/empListServlet?message=" + msg);
+            } else {
+                request.setAttribute("errorMsg", "更新に失敗しました。");
+                request.setAttribute("userEdit", user);
+                request.getRequestDispatcher("/admin/adminUserEdit.jsp").forward(request, response);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorMsg", "システムエラーが発生しました。");
+            request.getRequestDispatcher("/admin/adminUserEdit.jsp").forward(request, response);
+        }
+    }
 }

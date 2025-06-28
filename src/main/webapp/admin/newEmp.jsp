@@ -111,7 +111,7 @@ button, input[type="submit"], input[type="reset"] {
 				<input type="submit" value=<%=isUpdate ? "登録" : "登録"%> /> <input
 					type="reset" value="クリア" />
 				<button type="button"
-					onclick="location.href='ProductManagementServlet';">戻る</button>
+					onclick="location.href="/admin/sales.jsp">戻る</button>
 			</div>
 
 		</form>
