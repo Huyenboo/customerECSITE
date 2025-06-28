@@ -24,18 +24,18 @@ th { background: #eee; }
 .search-section { margin: 15px 0; text-align: center; }
 button, .btn-link { padding: 5px 10px; margin: 0 5px; }
 a.btn-link { text-decoration: none; background: #ddd; border: 1px solid #aaa; }
+.pagination { margin-top: 15px; text-align: center; }
 </style>
 </head>
 <body>
 
 <div class="container">
     <h1>注文管理</h1>
-    <p><%= user.getEmp_name() %> さん（<%= user.getRole_name() %>）</p>
 
     <div class="search-section">
         <form method="get" action="OrderManagementServlet" style="display:inline;">
-            顧客ID：
-            <input type="text" name="userId" value="<%= request.getParameter("userId") == null ? "" : request.getParameter("userId") %>" />
+            顧客名：
+            <input type="text" name="userName" value="<%= request.getAttribute("keyword") != null ? request.getAttribute("keyword") : "" %>" />
             <input type="submit" value="検索" />
         </form>
     </div>
@@ -58,18 +58,20 @@ a.btn-link { text-decoration: none; background: #ddd; border: 1px solid #aaa; }
         <%
         @SuppressWarnings("unchecked")
         List<CartItem> orders = (List<CartItem>) request.getAttribute("orderList");
+        double proPrice;
         if (orders != null && !orders.isEmpty()) {
             for (CartItem ci : orders) {
+            	proPrice = ci.getProduct().getProPrice();
         %>
         <tr>
             <td><%= ci.getOrderDay() %></td>
             <td><%= ci.getOrderId() %></td>
-            <td><%= ci.getUserName() %>A社</td>
+            <td><%= ci.getUserName() %></td>
             <td><%= ci.getProduct().getProId() %></td>
             <td><%= ci.getProduct().getProName() %></td>
             <td><%= ci.getQuantity() %></td>
-            <td><%= ci.getProduct().getProUnitNum() %></td>
-            <td><%= ci.getSubtotal() %></td>
+            <td><%= ci.getProduct().getProPrice() %></td>
+            <td><%= ci.getSubtotal(proPrice) %></td>
             <td><%= ci.getDeliveryDate() %></td>
             <td><%= ci.getOrderMemo() != null ? ci.getOrderMemo() : "" %></td>
             <td>
@@ -84,8 +86,27 @@ a.btn-link { text-decoration: none; background: #ddd; border: 1px solid #aaa; }
         <% } %>
     </table>
 
+    <div class="pagination">
+        <%
+            Integer currentPage = (Integer) request.getAttribute("currentPage");
+            Integer totalPages = (Integer) request.getAttribute("totalPages");
+            String keyword = (String) request.getAttribute("keyword");
+            if (currentPage == null) currentPage = 1;
+            if (totalPages == null) totalPages = 1;
+            if (keyword == null) keyword = "";
+        %>
+
+        <% if (currentPage > 1) { %>
+            <a href="OrderManagementServlet?page=<%= currentPage - 1 %>&userName=<%= keyword %>">前へ</a>
+        <% } %>
+        <span><%= currentPage %> / <%= totalPages %></span>
+        <% if (currentPage < totalPages) { %>
+            <a href="OrderManagementServlet?page=<%= currentPage + 1 %>&userName=<%= keyword %>">次へ</a>
+        <% } %>
+    </div>
+
     <br>
-    <a href="<%= request.getContextPath() %>/jsp/salesTop.jsp" class="btn-link">TOPへ戻る</a>
+    <a href="<%= request.getContextPath() %>/admin/salesTop.jsp" class="btn-link">TOPへ戻る</a>
 </div>
 
 </body>

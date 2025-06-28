@@ -22,7 +22,7 @@ public class UserDAO extends DBAccess {
 
 			while (rs.next()) {
 				User user = new User();
-				user.setId(rs.getInt("id")); 
+				user.setId(rs.getInt("id"));
 				user.setCompanyId(rs.getString("company_id"));
 				user.setCompanyName(rs.getString("company_name"));
 				user.setCompanyAddress(rs.getString("company_address"));
@@ -216,45 +216,45 @@ public class UserDAO extends DBAccess {
 
 	}
 
-//	public boolean userUpdateStatus(int userId) {
-//
-//		String sql = "UPDATE app_user set status=? where id=? ";
-//
-//		try {
-//			connect();
-//			PreparedStatement ps = getConnection().prepareStatement(sql);
-//			ps.setString(1, "pending");
-//			ps.setInt(2, userId);
-//			int result = ps.executeUpdate();
-//			ps.close();
-//			return result > 0;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			disconnect();
-//		}
-//		return false;
-//
-//	}
+	//	public boolean userUpdateStatus(int userId) {
+	//
+	//		String sql = "UPDATE app_user set status=? where id=? ";
+	//
+	//		try {
+	//			connect();
+	//			PreparedStatement ps = getConnection().prepareStatement(sql);
+	//			ps.setString(1, "pending");
+	//			ps.setInt(2, userId);
+	//			int result = ps.executeUpdate();
+	//			ps.close();
+	//			return result > 0;
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//		} finally {
+	//			disconnect();
+	//		}
+	//		return false;
+	//
+	//	}
 	public boolean userUpdateStatus(int userId, String status) {
 
-	    String sql = "UPDATE app_user SET status = ? WHERE id = ?";
+		String sql = "UPDATE app_user SET status = ? WHERE id = ?";
 
-	    try {
-	        connect();
-	        PreparedStatement ps = getConnection().prepareStatement(sql);
-	        ps.setString(1, status);  // Cho phép truyền vào bất kỳ trạng thái nào
-	        ps.setInt(2, userId);
-	        int result = ps.executeUpdate();
-	        ps.close();
-	        return result > 0;
-	        
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    } finally {
-	        disconnect();
-	    }
-	    return false;
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setString(1, status); // Cho phép truyền vào bất kỳ trạng thái nào
+			ps.setInt(2, userId);
+			int result = ps.executeUpdate();
+			ps.close();
+			return result > 0;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return false;
 	}
 
 	// Tìm kiếm theo tên công ty + phân trang
@@ -322,8 +322,5 @@ public class UserDAO extends DBAccess {
 		}
 		return count;
 	}
-
-
-	
 
 }
