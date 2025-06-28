@@ -88,15 +88,15 @@ th {
 
 		<div style="margin-bottom: 10px;">
 			<button
-				onclick="location.href='<%=request.getContextPath()%>/admin/newEmp.jsp'">＋新規登録</button>
+				onclick="location.href='<%=request.getContextPath()%>/admin/newEmp.jsp'">新規登録</button>
 		</div>
 
 		<div class="search-box">
-			<form action="EmployeeListServlet" method="get">
-				<input type="text" name="keyword" placeholder="社員番号または社員名で検索"
-					value="<%=keyword%>">
-				<button type="submit">検索</button>
-			</form>
+        <form action="<%=request.getContextPath()%>/SearchEmployeeServlet" method="get">
+            <input type="text" name="keyword" placeholder="社員番号または社員名で検索" value="<%=keyword%>">
+            <button type="submit">検索</button>
+        </form>
+			
 		</div>
 
 		<table>
