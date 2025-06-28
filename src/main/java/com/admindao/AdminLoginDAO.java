@@ -1,4 +1,4 @@
-package src.main.java.com.admindao;
+package com.admindao;
 
 
 import java.sql.Connection;
