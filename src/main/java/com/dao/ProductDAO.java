@@ -54,7 +54,7 @@ public class ProductDAO extends DBAccess {
 	}
 
 	public boolean insertProduct(Product p) {
-		String sql = "INSERT INTO product (id, pro_id, pro_name, pro_name_short, pro_en_name, pro_kana_name, pro_file, pro_seedling, pro_box, pro_code1, pro_code2, pro_stan, pro_en_stan, pro_sci_name, pro_unit_num,pro_price, pro_unit, pro_discard, pro_memo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO product (id, pro_id, pro_name, pro_name_short, pro_en_name, pro_kana_name, pro_file, pro_seedling, pro_box, pro_code1, pro_code2, pro_stan, pro_en_stan, pro_sci_name, pro_unit_num,pro_price, pro_unit, pro_discard, pro_memo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 		try {
 			connect();
 			PreparedStatement ps = getConnection().prepareStatement(sql);
@@ -349,15 +349,15 @@ public class ProductDAO extends DBAccess {
 
 	//新商品
 	public List<Product> getNewestProducts() {
-		List<Product> list = new ArrayList<>();
-		String sql = "SELECT * FROM product ORDER BY id DESC LIMIT 20";
-		try {
-			connect();
-			PreparedStatement ps = getConnection().prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
+	    List<Product> list = new ArrayList<>();
+	    String sql = "SELECT * FROM product ORDER BY id DESC LIMIT 20";
+	    try {
+	        connect(); 
+	        PreparedStatement ps = getConnection().prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
 
-			while (rs.next()) {
-				Product p = new Product();
+	        while (rs.next()) {
+	            Product p = new Product();
 				p.setId(rs.getInt("id"));
 				p.setProId(rs.getString("pro_id"));
 				p.setProName(rs.getString("pro_name"));
@@ -378,16 +378,16 @@ public class ProductDAO extends DBAccess {
 				p.setProDiscard(rs.getInt("pro_discard"));
 				p.setProMemo(rs.getString("pro_memo"));
 				list.add(p);
-			}
+	        }
 
-			rs.close();
-			ps.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			disconnect();
-		}
+	        rs.close();
+	        ps.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        disconnect();
+	    }
 
-		return list;
+	    return list;
 	}
 }

@@ -22,6 +22,7 @@ public class UserDAO extends DBAccess {
 
 			while (rs.next()) {
 				User user = new User();
+				user.setId(rs.getInt("id")); 
 				user.setCompanyId(rs.getString("company_id"));
 				user.setCompanyName(rs.getString("company_name"));
 				user.setCompanyAddress(rs.getString("company_address"));
@@ -256,10 +257,73 @@ public class UserDAO extends DBAccess {
 	    return false;
 	}
 
-	public List<User> searchByName(String keyword) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	// Tìm kiếm theo tên công ty + phân trang
+	public List<User> searchByCompanyName(String keyword, int offset, int limit) {
+		List<User> list = new ArrayList<>();
+		String sql = "SELECT * FROM app_user WHERE company_name LIKE ? LIMIT ? OFFSET ?";
+
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setString(1, "%" + keyword + "%");
+			ps.setInt(2, limit);
+			ps.setInt(3, offset);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				User user = new User();
+				user.setId(rs.getInt("id"));
+				user.setCompanyId(rs.getString("company_id"));
+				user.setCompanyName(rs.getString("company_name"));
+				user.setCompanyAddress(rs.getString("company_address"));
+				user.setPresidentPhoneNum(rs.getString("president_phone_num"));
+				user.setManagerName(rs.getString("manager_name"));
+				user.setManagerPhoneNum(rs.getString("manager_phone_num"));
+				user.setManagerEmail(rs.getString("manager_email"));
+				user.setPassword(rs.getString("pass"));
+				user.setStatus(rs.getString("status"));
+				user.setRequestedAt(rs.getTimestamp("requested_at"));
+				user.setApprovedAt(rs.getTimestamp("approved_at"));
+				user.setApprovedBy(rs.getInt("approved_by"));
+				user.setRejectionReason(rs.getString("rejection_reason"));
+				list.add(user);
+			}
+			rs.close();
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return list;
 	}
+
+	// Đếm tổng số bản ghi phù hợp điều kiện tìm kiếm
+	public int countSearch(String keyword) {
+		String sql = "SELECT COUNT(*) FROM app_user WHERE company_name LIKE ?";
+		int count = 0;
+
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setString(1, "%" + keyword + "%");
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+			rs.close();
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return count;
+	}
+
+
 	
 
 }
