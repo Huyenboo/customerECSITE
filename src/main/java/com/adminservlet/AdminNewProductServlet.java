@@ -29,7 +29,7 @@ public class AdminNewProductServlet extends HttpServlet {
         // 入力フォームから値を取得
         String proId = req.getParameter("proId");
         String proName = req.getParameter("proName");
-        String proUnit = req.getParameter("proUnit");
+        double proPrice = Double.parseDouble(req.getParameter("proPrice")) ;
         String proUnitNum = req.getParameter("proUnitNum");
         String proMemo = req.getParameter("proMemo");
 
@@ -39,7 +39,7 @@ public class AdminNewProductServlet extends HttpServlet {
         p.setProName(proName);
         try { p.setProUnitNum(Integer.parseInt(proUnitNum)); }
         catch (NumberFormatException ignored) {}
-        p.setProUnit(proUnit);
+        p.setProPrice(proPrice);
         p.setProMemo(proMemo);
 
         // DAO に保存
