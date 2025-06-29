@@ -111,14 +111,14 @@ input[type="number"] {
 		<div class="search-group">
 			<form action="<%=request.getContextPath()%>/SearchProduct"
 				method="get">
-				<label>ID検索</label><br> <input type="text" name="productId">
+				<label>商品ID検索</label><br> <input type="text" name="productId">
 				<button type="submit">検索</button>
 			</form>
 		</div>
 		<div class="search-group">
 			<form action="<%=request.getContextPath()%>/SearchProduct"
 				method="get">
-				<label>キーワード検索</label><br> <input type="text" name="keyword">
+				<label>商品名検索</label><br> <input type="text" name="keyword">
 				<button type="submit">検索</button>
 			</form>
 		</div>
