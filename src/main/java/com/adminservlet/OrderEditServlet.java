@@ -18,17 +18,18 @@ public class OrderEditServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String idStr = request.getParameter("id");
+
+        if (idStr == null || idStr.isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/OrderManagementServlet");
+            return;
+        }
+
         try {
-            String orderIdParam = request.getParameter("orderId");
-
-            if (orderIdParam == null || orderIdParam.isEmpty()) {
-                response.sendRedirect(request.getContextPath() + "/OrderListServlet");
-                return;
-            }
-
-            int orderId = Integer.parseInt(orderIdParam);
-
+            int orderId = Integer.parseInt(idStr);
             OrderDAO dao = new OrderDAO();
+            
+            // Lấy chi tiết đơn hàng dựa vào orderId
             CartItem order = dao.getOrderById(orderId);
 
             if (order != null) {
@@ -38,7 +39,7 @@ public class OrderEditServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/OrderManagementServlet");
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             response.sendRedirect(request.getContextPath() + "/OrderManagementServlet");
         }

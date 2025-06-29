@@ -13,10 +13,11 @@ import com.dao.ProductDAO;
 
 @WebServlet("/AdminNewProductServlet")
 public class AdminNewProductServlet extends HttpServlet {
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        // 登録画面へ遷移（フォーム表示）
+        // Chuyển đến màn hình đăng ký sản phẩm
         req.getRequestDispatcher("/admin/NewProductInsert.jsp").forward(req, res);
     }
 
@@ -26,33 +27,61 @@ public class AdminNewProductServlet extends HttpServlet {
     	
         req.setCharacterEncoding("UTF-8");
 
-        // 入力フォームから値を取得
-        String proId = req.getParameter("proId");
-        String proName = req.getParameter("proName");
-        double proPrice = Double.parseDouble(req.getParameter("proPrice")) ;
-        String proUnitNum = req.getParameter("proUnitNum");
-        String proMemo = req.getParameter("proMemo");
+        try {
+            // Lấy dữ liệu từ form
+            String proId = req.getParameter("proId");
+            String proName = req.getParameter("proName");
+            String priceStr = req.getParameter("proPrice");
+            String proUnitNum = req.getParameter("proUnitNum");
+            String proMemo = req.getParameter("proMemo");
 
-        // Bean にセット
-        Product p = new Product();
-        p.setProId(proId);
-        p.setProName(proName);
-        try { p.setProUnitNum(Integer.parseInt(proUnitNum)); }
-        catch (NumberFormatException ignored) {}
-        p.setProPrice(proPrice);
-        p.setProMemo(proMemo);
+            // Kiểm tra dữ liệu đầu vào
+            if (proId == null || proId.isEmpty() || 
+                proName == null || proName.isEmpty() || 
+                priceStr == null || priceStr.isEmpty()) {
+                
+                req.setAttribute("error", "全ての必須項目を入力してください。");
+                req.getRequestDispatcher("/admin/NewProductInsert.jsp").forward(req, res);
+                return;
+            }
 
-        // DAO に保存
-        ProductDAO dao = new ProductDAO();
-        boolean success = dao.insertProduct(p);
+            double proPrice = Double.parseDouble(priceStr.trim());
 
-        // フラッシュメッセージ表示
-        req.setAttribute("message", success ? "登録成功しました" : "登録に失敗しました");
-        
-        // formの再表示 or リダイレクト
-        if (success) {
-            res.sendRedirect("ProductManagementServlet");
-        } else {
+            // Set vào Bean
+            Product p = new Product();
+            p.setProId(proId);
+            p.setProName(proName);
+            p.setProPrice(proPrice);
+            p.setProMemo(proMemo);
+
+            try {
+                if (proUnitNum != null && !proUnitNum.isEmpty()) {
+                    p.setProUnitNum(Integer.parseInt(proUnitNum));
+                }
+            } catch (NumberFormatException ignored) {
+                // Nếu số lượng nhập sai, set về 0 hoặc bỏ qua
+                p.setProUnitNum(0);
+            }
+
+            // Gọi DAO để lưu
+            ProductDAO dao = new ProductDAO();
+            boolean success = dao.insertProduct(p);
+
+            if (success) {
+                req.getSession().setAttribute("success", "登録成功しました");
+                res.sendRedirect("ProductManagementServlet");
+            } else {
+                req.setAttribute("error", "登録に失敗しました");
+                req.getRequestDispatcher("/admin/NewProductInsert.jsp").forward(req, res);
+            }
+
+        } catch (NumberFormatException e) {
+            req.setAttribute("error", "価格が不正です。数値を入力してください。");
+            req.getRequestDispatcher("/admin/NewProductInsert.jsp").forward(req, res);
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Log chi tiết lỗi
+            req.setAttribute("error", "システムエラーが発生しました。");
             req.getRequestDispatcher("/admin/NewProductInsert.jsp").forward(req, res);
         }
     }

@@ -66,7 +66,7 @@ a.btn-link { text-decoration: none; background: #ddd; border: 1px solid #aaa; }
         <tr>
             <td><%= ci.getOrderDay() %></td>
             <td><%= ci.getOrderId() %></td>
-            <td><%= ci.getUserName() %></td>
+            <td><%= ci.getCompanyName() %></td>
             <td><%= ci.getProduct().getProId() %></td>
             <td><%= ci.getProduct().getProName() %></td>
             <td><%= ci.getQuantity() %></td>
@@ -75,7 +75,7 @@ a.btn-link { text-decoration: none; background: #ddd; border: 1px solid #aaa; }
             <td><%= ci.getDeliveryDate() %></td>
             <td><%= ci.getOrderMemo() != null ? ci.getOrderMemo() : "" %></td>
             <td>
-                <a href="OrderDetailServlet?id=<%= ci.getOrderId() %>">詳細</a>
+                <a href="OrderDetailUpdate?id=<%= ci.getOrderId() %>&memo=<%= "確定" %>">確定</a>
                 <a href="OrderEditServlet?id=<%= ci.getOrderId() %>">編集</a>
                 <a href="OrderDeleteServlet?id=<%= ci.getOrderId() %>" onclick="return confirm('本当に削除しますか？');">削除</a>
             </td>

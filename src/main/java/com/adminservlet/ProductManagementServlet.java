@@ -37,6 +37,17 @@ public class ProductManagementServlet extends HttpServlet {
         String idSearch = request.getParameter("idSearch");
         String keywordSearch = request.getParameter("keywordSearch");
         String pageParam = request.getParameter("page");
+     // Servlet 2 hoặc JSP
+        String successMsg = (String) request.getSession().getAttribute("success");
+        String errorMsg = (String) request.getSession().getAttribute("error");
+        if (successMsg != null) {
+            request.setAttribute("success", successMsg);
+            request.getSession().removeAttribute("success");
+        }
+        if (errorMsg != null) {
+            request.setAttribute("error", errorMsg);
+            request.getSession().removeAttribute("error");
+        }
 
         int page = 1;
         if (pageParam != null) {

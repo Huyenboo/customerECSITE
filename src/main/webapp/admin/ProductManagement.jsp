@@ -17,14 +17,21 @@ String idSearch = request.getParameter("idSearch") != null ? request.getParamete
 String keywordSearch = request.getParameter("keywordSearch") != null ? request.getParameter("keywordSearch") : "";
 %>
 
+<%
+    String success = (String) request.getAttribute("success");
+
+%>
+
+
+
 <html>
 <head>
 <title>商品管理</title>
 <style>
 body {
 	font-family: "Yu Gothic UI", sans-serif;
-	background-color: #fff;
-	text-align: center;
+	background-colr: #fff;
+	text-align: ceonter;
 	margin: 20px;
 }
 
@@ -77,6 +84,9 @@ button, .link-btn, input[type="submit"] {
 
 	<h1>商品管理</h1>
 
+	<% if (success != null) { %>
+	<p style="color: red;"><%= success %></p>
+	<% } %>
 
 	<div class="search-container">
 		<form action="<%=request.getContextPath()%>/ProductManagementServlet"

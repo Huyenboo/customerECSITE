@@ -15,7 +15,8 @@ if (p == null) {
 	return;
 }
 
-String message = (String) request.getAttribute("message");
+String error = (String) request.getAttribute("error");
+
 %>
 <html>
 <head>
@@ -49,15 +50,9 @@ input, textarea {
 <body>
 	<div class="container">
 		<h1>商品編集</h1>
-		<%
-		if (message != null) {
-		%>
-		<p>
-			<strong><%=message%></strong>
-		</p>
-		<%
-		}
-		%>
+		 <% if (error != null) { %>
+	<p style="color: red;"><%=error %></p>
+	<% } %>
 
 		<form action="<%=request.getContextPath()%>/EditProductServlet"
 			method="post">
@@ -70,8 +65,8 @@ input, textarea {
 					value="<%=p.getProName()%>" required />
 			</div>
 			<div class="field">
-				<label>単価:</label> <input type="text" name="proUnit"
-					value="<%=p.getProUnit()%>" />
+				<label>単価:</label> <input type="text" name="proPrice"
+					value="<%=p.getProPrice()%>" />
 			</div>
 			<div class="field">
 				<label>在庫数:</label> <input type="text" name="proUnitNum"
