@@ -25,6 +25,7 @@ public class LoginServlet extends HttpServlet {
 		String phone = req.getParameter("phone");
 		String password = req.getParameter("password");
 		String adderss = req.getParameter("address");
+		
 
 		UserDAO dao = new UserDAO();
 		User user = dao.loginUser(phone, password);

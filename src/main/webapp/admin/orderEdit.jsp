@@ -72,7 +72,7 @@
         <div class="field">
             <label>注文コード:</label>
             <input type="text" name="orderCode" value="<%= order.getOrderCode() %>" required>
-        </div>
+        </div>a
 
         <div class="field">
             <label>商品名:</label>

@@ -24,10 +24,8 @@ public class OrderConfirmServlet extends HttpServlet {
 
 		List<CartItem> cartList = (List<CartItem>) session.getAttribute("cart");
 		String address = (String) session.getAttribute("address");
-
-		System.out.println("=== orderConfirm 呼び出し確認 ===");
-		System.out.println("Cart Size: " + (cartList != null ? cartList.size() : 0));
-		System.out.println("住所: " + address);
+		String userName = (String)  session.getAttribute("userName");
+		System.out.println(userName);
 
 		// Kiểm tra giỏ hàng hợp lệ
 		if (cartList == null || cartList.isEmpty()) {

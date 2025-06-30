@@ -92,7 +92,6 @@ button, input[type="text"] {
 				<th>担当者名</th>
 				<th>電話番号</th>
 				<th>住所</th>
-				<th>操作</th>
 			</tr>
 			<%
 			List<User> list = (List<User>) request.getAttribute("customerList");
@@ -105,11 +104,6 @@ button, input[type="text"] {
 				<td><%=c.getManagerName()%></td>
 				<td><%=c.getManagerPhoneNum()%></td>
 				<td><%=c.getCompanyAddress()%></td>
-				<td><a
-					href="<%=request.getContextPath()%>/HumanEditServlet?id=<%=c.getId()%>">変更</a>
-					| <a
-					href="<%=request.getContextPath()%>/HumanDeleteServlet?id=<%=c.getId()%>"
-					onclick="return confirm('削除しますか？');">削除</a></td>
 			</tr>
 			<%
 			}
@@ -149,5 +143,8 @@ button, input[type="text"] {
 			}
 			%>
 		</div>
+		
+		
+</div>		
 </body>
 </html>

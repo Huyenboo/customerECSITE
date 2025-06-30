@@ -47,10 +47,10 @@ public class OrderDAO extends DBAccess {
 	public List<CartItem> getAllOrderIdByUserId(String userId) {
 		List<CartItem> list = new ArrayList<>();
 
-		String sql = "SELECT o.*, p.pro_id, p.pro_name, p.pro_unit_num " +
+		String sql = "SELECT o.*, p.pro_id, p.pro_name, p.pro_price " +
 				"FROM order_list o " +
 				"JOIN product p ON o.order_code = p.pro_id " +
-				"WHERE o.user_id = ?";
+				"WHERE o.user_id = ? ORDER BY o.order_id ASC ";
 		try {
 			connect();
 			PreparedStatement ps = getConnection().prepareStatement(sql);
@@ -62,7 +62,7 @@ public class OrderDAO extends DBAccess {
 				Product p = new Product();
 				p.setProId(rs.getString("pro_id"));
 				p.setProName(rs.getString("pro_name"));
-				p.setProPrice(rs.getInt("pro_unit_num")); // Đơn giá theo đơn vị (単価)
+				p.setProPrice(rs.getDouble("pro_price")); // Đơn giá theo đơn vị (単価)
 
 				// Tạo CartItem
 				CartItem o = new CartItem();
@@ -94,9 +94,11 @@ public class OrderDAO extends DBAccess {
 	public List<CartItem> getAllOrder() {
 		List<CartItem> list = new ArrayList<>();
 
-		String sql = "SELECT o.*, p.pro_id, p.pro_name, p.pro_unit_num " +
-				"FROM order_list o " +
-				"JOIN product p ON o.order_code = p.pro_id ";
+		String sql = """
+			    SELECT o.*, p.pro_id, p.pro_name, p.pro_unit_num, p.pro_price
+			    FROM order_list o
+			    JOIN product p ON o.order_code = p.pro_id
+			""";
 
 		try {
 			connect();
@@ -143,7 +145,7 @@ public class OrderDAO extends DBAccess {
 		String sql = """
 				    SELECT o.*, u.user_name, p.pro_name
 				    FROM order_list o
-				    JOIN app_user u ON o.user_id = u.id
+				    JOIN app_user u ON o.user_name = u.company_name
 				    JOIN product p ON o.order_code = p.pro_id
 				    WHERE o.order_id = ?
 				""";
@@ -189,13 +191,13 @@ public class OrderDAO extends DBAccess {
 	//Lấy danh sách tất cả đơn hàng có phân trang
 	public List<CartItem> getAllOrder(int offset, int limit) {
 		List<CartItem> list = new ArrayList<>();
-		String sql = """
-				    SELECT o.*, p.pro_id, p.pro_name, p.pro_unit_num
-				    FROM order_list o
-				    JOIN product p ON o.order_code = p.pro_id
-				    ORDER BY o.order_day DESC
-				    LIMIT ? OFFSET ?
-				""";
+		 String sql = """
+			        SELECT o.*, p.pro_id, p.pro_name, p.pro_unit_num, p.pro_price
+			        FROM order_list o
+			        JOIN product p ON o.order_code = p.pro_id
+			        ORDER BY o.order_day DESC
+			        LIMIT ? OFFSET ?
+			    """;
 
 		try {
 			connect();
@@ -208,7 +210,8 @@ public class OrderDAO extends DBAccess {
 				Product p = new Product();
 				p.setProId(rs.getString("pro_id"));
 				p.setProName(rs.getString("pro_name"));
-				p.setProPrice(rs.getInt("pro_unit_num"));
+				 p.setProUnitNum(rs.getInt("pro_unit_num"));
+				p.setProPrice(rs.getDouble("pro_price"));
 
 				CartItem o = new CartItem();
 				o.setOrderId(rs.getInt("order_id"));
@@ -287,6 +290,43 @@ public class OrderDAO extends DBAccess {
 
 		return list;
 	}
+	
+	
+	//	Tìm kiếm theo tên khách hàng + phân trang
+//	public List<OrderListDTO> searchOrdersByCustomerName(String keyword, int offset, int limit) {
+//	    List<OrderListDTO> list = new ArrayList<>();
+//	    String sql = """
+//	        SELECT o.order_day,o.order_id, u.company_name,p.pro_id,p.pro_name,o.order_amount,p.pro_price,o.order_arrived_day,o.order_memo 
+//	        FROM order_list o
+//	        JOIN product p ON o.order_code = p.pro_id
+//	        JOIN app_user u ON o.user_id = u.id
+//	        WHERE o.user_name LIKE ?
+//	        ORDER BY o.order_day DESC
+//	        LIMIT ? OFFSET ?
+//	    """;
+//
+//	    try {
+//	        connect();
+//	        PreparedStatement ps = getConnection().prepareStatement(sql);
+//	        ps.setString(1, "%" + keyword + "%");
+//	        ps.setInt(2, limit);
+//	        ps.setInt(3, offset);
+//	        ResultSet rs = ps.executeQuery();
+//
+//	        while (rs.next()) {
+//	        	OrderListDTO order = new OrderListDTO();
+//	        	order.setOrderDay(rs.getDate("order_day"));
+//	        	order.setOrderId(rs.getInt("order_id"));
+//	        	order.setCompanyName(rs.getString("company_name"));
+//	        	order.setProId(rs.getString("pro_id"));
+//	        	order.setProName(rs.getString("pro_name"));
+//	        	order.setAmount(rs.getInt("order_amount"));
+//	        	order.setProPrice(rs.getDouble("pro_price"));
+//	        	order.setArrivedDay(rs.getDate("order_arrived_day"));
+//	        	order.setMemo(rs.getString("order_memo"));
+//	        	
+//	
+//	        }
 
 	//Đếm tổng số đơn hàng
 	public int getTotalOrderCount() {
@@ -333,6 +373,25 @@ public class OrderDAO extends DBAccess {
 		}
 
 		return count;
+	}
+	
+	public boolean updateMemo(int id, String memo) {
+		String sql = "UPDATE order_list SET order_memo = ? WHERE order_id = ?";
+		
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setString(1,memo);
+			ps.setInt(2,id);
+			int row = ps.executeUpdate();
+			
+			ps.close();
+			return row > 0;
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

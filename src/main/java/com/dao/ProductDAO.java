@@ -334,11 +334,11 @@ public class ProductDAO extends DBAccess {
 
 	// 更新用 product 全項目更新（例：名前・単価・在庫・備考）
 	public boolean update(Product p) throws Exception {
-		String sql = "UPDATE product SET pro_name=?, pro_unit=?, pro_unit_num=?, pro_memo=? WHERE id=?";
+		String sql = "UPDATE product SET pro_name=?, pro_price=?, pro_unit_num=?, pro_memo=? WHERE id=?";
 		connect();
 		PreparedStatement ps = getConnection().prepareStatement(sql);
 		ps.setString(1, p.getProName());
-		ps.setString(2, p.getProUnit());
+		ps.setDouble(2, p.getProPrice());
 		ps.setInt(3, p.getProUnitNum());
 		ps.setString(4, p.getProMemo());
 		ps.setInt(5, p.getId());

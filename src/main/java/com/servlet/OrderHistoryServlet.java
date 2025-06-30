@@ -46,7 +46,7 @@ public class OrderHistoryServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
-
+		System.out.println(userId);
 		OrderDAO dao = new OrderDAO();
 		List<CartItem> listOrderDb = dao.getAllOrderIdByUserId(userId);
 
