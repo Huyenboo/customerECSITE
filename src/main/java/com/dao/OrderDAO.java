@@ -615,5 +615,17 @@ public class OrderDAO extends DBAccess {
 	        disconnect();
 	    }
 	}
+	
+	//delete order
+    public boolean deleteById(String id) throws Exception {
+        String sql = "DELETE FROM order_list WHERE order_id = ?";
+        connect();
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setInt(1, Integer.parseInt(id)); // order_id kiểu INT
+            return ps.executeUpdate() > 0;
+        } finally {
+            disconnect();
+        }
+    }
 
 }

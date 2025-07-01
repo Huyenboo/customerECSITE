@@ -113,17 +113,6 @@ input[type="text"], input[type="password"] {
 					value="<%=user.getEmp_name() != null ? user.getEmp_name() : ""%>">
 			</div>
 
-			<div class="field">
-				<label>部署:</label>
-				<div class="radio-group">
-					<label><input type="radio" name="role_id" value="1"
-						<%=user.getRole_id() == 1 ? "checked" : ""%>>営業部</label> <label><input
-						type="radio" name="role_id" value="2"
-						<%=user.getRole_id() == 2 ? "checked" : ""%>>管理部</label> <label><input
-						type="radio" name="role_id" value="3"
-						<%=user.getRole_id() == 3 ? "checked" : ""%>>部長</label>
-				</div>
-			</div>
 
 			<div class="field">
 				<label>役職:</label> <input type="text" name="emp_position"

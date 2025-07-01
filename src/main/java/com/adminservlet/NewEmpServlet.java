@@ -35,7 +35,16 @@ public class NewEmpServlet extends HttpServlet {
 		emp.setPass(pass);
 
 		EmpDAO dao = new EmpDAO();
+		AdminUserBean checkEmpId = new AdminUserBean();
+		checkEmpId = dao.getEmplById(empId);
+		if(checkEmpId == null ) {
+			request.setAttribute("message", "IDが存在しています。");
+			request.getRequestDispatcher("/admin/newEmp.jsp").forward(request, response);
+			return ;
+			
+		}
 		boolean success = dao.insertEmployee(emp);
+		
 
 		if (success) {
 			response.sendRedirect(request.getContextPath() + "/empListServlet");

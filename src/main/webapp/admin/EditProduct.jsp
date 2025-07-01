@@ -15,8 +15,7 @@ if (p == null) {
 	return;
 }
 
-String error = (String) request.getAttribute("error");
-
+String error = (String) request.getAttribute("errorMsg");
 %>
 <html>
 <head>
@@ -82,16 +81,18 @@ input, textarea {
 		 <% if (error != null) { %>
 	<p style="color: red;"><%=error %></p>
 	<% } %>
+	
 
 		<form action="<%=request.getContextPath()%>/EditProductServlet"
 			method="post">
 			<input type="hidden" name="id" value="<%=p.getId()%>" />
 			<div class="field">
 				<label>商品ID:</label><span><%=p.getProId()%></span>
+				<input type="hidden" name="proId" value="<%=p.getProId() %>">
 			</div>
 			<div class="field">
 				<label>商品名:</label> <input type="text" name="proName"
-					value="<%=p.getProName()%>" required />
+					value="<%=p.getProName()%>" >
 			</div>
 			<div class="field">
 				<label>単価:</label> <input type="text" name="proPrice"

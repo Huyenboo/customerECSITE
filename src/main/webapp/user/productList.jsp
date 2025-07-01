@@ -142,7 +142,7 @@ input[type="number"] {
 		
 		<td><%=p.getProId()%></td>
 			<td><%=p.getProName()%></td>
-			<td>¥<%=p.getProPrice()%></td>
+			<td><%=p.getProPrice()%></td>
 			<td><%=p.getProMemo()%></td>
 			<td>
 				<form method="post" action="<%=request.getContextPath()%>/addToCart">

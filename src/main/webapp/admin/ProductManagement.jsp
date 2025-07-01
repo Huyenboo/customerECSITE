@@ -16,6 +16,7 @@ int totalPages = request.getAttribute("totalPages") != null ? (int) request.getA
 String idSearch = request.getParameter("idSearch") != null ? request.getParameter("idSearch") : "";
 String keywordSearch = request.getParameter("keywordSearch") != null ? request.getParameter("keywordSearch") : "";
 String success = (String) request.getAttribute("success");
+String error =(String) request.getAttribute("error");
 %>
 
 <html>
@@ -70,6 +71,9 @@ button, .link-btn, input[type="submit"] {
 
 	<% if (success != null) { %>
 	<p style="color: red;"><%= success %></p>
+	<% } %>
+		<% if (error != null) { %>
+	<p style="color: red;"><%= error %></p>
 	<% } %>
 	
 

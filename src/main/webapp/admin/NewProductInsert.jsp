@@ -30,10 +30,10 @@
 	
 
     <form action="<%= request.getContextPath() %>/AdminNewProductServlet" method="post">
-      <div class="field"><label>ID:</label><input type="text" name="proId" required /></div>
-      <div class="field"><label>商品名:</label><input type="text" name="proName" required /></div>
-      <div class="field"><label>単価:</label><input type="text" name="proPrice" required /></div>
-      <div class="field"><label>在庫数:</label><input type="text" name="proUnitNum" required /></div>
+      <div class="field"><label>ID:</label><input type="text" name="proId" ></div>
+      <div class="field"><label>商品名:</label><input type="text" name="proName"  ></div>
+      <div class="field"><label>単価:</label><input type="text" name="proPrice" ></div>
+      <div class="field"><label>在庫数:</label><input type="text" name="proUnitNum" ></div>
       <div class="field"><label>備考:</label><textarea name="proMemo" rows="3" cols="30"></textarea></div>
       <div class="field">
         <input type="submit" value="登録" />

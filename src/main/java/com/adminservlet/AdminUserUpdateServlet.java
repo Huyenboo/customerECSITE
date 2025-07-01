@@ -25,6 +25,8 @@ public class AdminUserUpdateServlet extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/empListServlet");
 			return;
 		}
+		
+
 
 		EmpDAO dao = new EmpDAO();
 		AdminUserBean user = dao.getEmplById(empId);

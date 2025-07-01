@@ -193,6 +193,9 @@ public class EmpDAO extends DBAccess {
 		emp.setPass(rs.getString("pass"));
 		return emp;
 	}
+	
+	
+	//delete emp
 	public boolean deleteEmployeeById(String id) throws Exception {
 	    String sql = "DELETE FROM emp WHERE id = ?";
 	    connect();

@@ -70,7 +70,7 @@ public class AdminNewProductServlet extends HttpServlet {
 			List<Product> productList = new ArrayList<>(); 
 			productList = dao.getListProductById(proId);
 			if(productList.size() > 0) {
-				req.setAttribute("error", "登録に失敗しました");
+				req.setAttribute("error", "商品IDが重複しています。");
 				req.getRequestDispatcher("/admin/NewProductInsert.jsp").forward(req, res);
 				 return;
 			}

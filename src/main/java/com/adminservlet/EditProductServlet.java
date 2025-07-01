@@ -44,20 +44,25 @@ public class EditProductServlet extends HttpServlet {
 		String priceStr = request.getParameter("proPrice");
 		String proUnitNumStr = request.getParameter("proUnitNum");
 		String proMemo = request.getParameter("proMemo");
-
+		String proId = request.getParameter("proId");
 		Product p = new Product();
 		try {
 			// Đưa dữ liệu tạm vào bean để nếu có lỗi vẫn hiển thị lại
 			p.setId(Integer.parseInt(idStr));
 			p.setProName(proName);
 			p.setProMemo(proMemo);
-
+			
+			
+			p.setProId(proId);
 			// Kiểm tra dữ liệu bắt buộc
 			if (proName == null || proName.isEmpty() ||
 			    priceStr == null || priceStr.trim().isEmpty() ||
 			    proUnitNumStr == null || proUnitNumStr.trim().isEmpty()) {
+				Product getProductError = new Product();
+				getProductError= new ProductDAO().getProductById(proId);
 
-				request.setAttribute("product", p);
+				request.setAttribute("product", getProductError);
+				
 				request.setAttribute("errorMsg", "全ての必須項目を正しく入力してください。");
 				request.getRequestDispatcher("/admin/EditProduct.jsp").forward(request, response);
 				return;
