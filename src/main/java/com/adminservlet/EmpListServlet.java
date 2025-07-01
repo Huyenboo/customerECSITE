@@ -78,9 +78,14 @@ public class EmpListServlet extends HttpServlet {
 		int totalPages = (int) Math.ceil((double) totalCount / limit);
 
 		// Gửi dữ liệu sang JSP
+		
+		String message = request.getParameter("message");
 		request.setAttribute("empList", empList);
 		request.setAttribute("totalPages", totalPages);
 		request.setAttribute("currentPage", page);
+		request.setAttribute("message", message); 
+		
+		
 
 		request.getRequestDispatcher("/admin/empList.jsp").forward(request, response);
 	}

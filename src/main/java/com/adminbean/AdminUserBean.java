@@ -107,6 +107,15 @@ public class AdminUserBean {
 	public void setRole_name(String role_name) {
 		this.role_name = role_name;
 	}
+
+	@Override
+	public String toString() {
+		return "AdminUserBean [id=" + id + ", emp_id=" + emp_id + ", emp_name=" + emp_name + ", emp_birth_date="
+				+ emp_birth_date + ", emp_address=" + emp_address + ", emp_entry_date=" + emp_entry_date + ", role_id="
+				+ role_id + ", emp_position=" + emp_position + ", emp_grade=" + emp_grade + ", pass=" + pass
+				+ ", role_name=" + role_name + "]";
+	}
+	
 	
 	
 

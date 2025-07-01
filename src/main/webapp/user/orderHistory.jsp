@@ -122,7 +122,7 @@ th {
 					<td><%=p.getProName()%></td>
 					<td><%=item.getQuantity()%></td>
 					<td><%=p.getProPrice()%></td>
-					<td><%=p.getProPrice() * item.getQuantity()%></td>
+					<td><%=Math.round(p.getProPrice() * item.getQuantity())%></td>
 					<td><%=item.getDeliveryDate()%></td>
 
 

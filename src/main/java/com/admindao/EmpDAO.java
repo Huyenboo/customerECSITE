@@ -168,13 +168,15 @@ public class EmpDAO extends DBAccess {
 			ps.setString(4, user.getPass());
 			ps.setString(5, user.getEmp_id());
 
-			return ps.executeUpdate() > 0;
+			int row = ps.executeUpdate();
+
+			ps.close();
+			return row > 0;
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			disconnect();
+			return false;
 		}
-		return false;
 	}
 
 	// Dùng chung để lấy dữ liệu từ ResultSet

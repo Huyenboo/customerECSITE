@@ -161,7 +161,7 @@ a.btn-link:hover {
 					<td><%=p.getProPrice()%> </td>
 					<td><%=item.getQuantity()%></td>
 					<td><%=item.getOrderMemo() != null ? item.getOrderMemo() : ""%></td>
-					<td><%=subtotal%> 円</td>
+					<td><%= Math.round(subtotal) %></td>
 				
 				</tr>
 				<%

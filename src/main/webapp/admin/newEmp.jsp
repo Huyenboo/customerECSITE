@@ -6,11 +6,12 @@ AdminUserBean employee = isUpdate ? (AdminUserBean) request.getAttribute("employ
 String actionForm = isUpdate ? "UpdateEmployeeServlet" : "newEmpServlet";
 String message = (String) request.getAttribute("message");
 %>
+
 <html>
 <head>
 <title>社員新規登録</title>
 <style>
-body {
+body {                        
 	font-family: "Yu Gothic UI", sans-serif;
 	background-color: #f2f2f2;
 	height: 100vh;
@@ -95,6 +96,7 @@ input[type="text"], input[type="password"] {
 		<%
 		}
 		%>
+		
 
 		<form action="<%=request.getContextPath() + "/" + actionForm%>"
 			method="post">
@@ -115,10 +117,8 @@ input[type="text"], input[type="password"] {
 				<div class="radio-group">
 					<label><input type="radio" name="role_id" value="1"
 						<%=employee.getRole_id() == 1 ? "checked" : ""%>> 営業部</label> <label><input
-						type="radio" name="role_id" value="2"
-						<%=employee.getRole_id() == 2 ? "checked" : ""%>> 管理部</label> <label><input
 						type="radio" name="role_id" value="3"
-						<%=employee.getRole_id() == 3 ? "checked" : ""%>> 部長</label>
+						<%=employee.getRole_id() == 3 ? "checked" : ""%>> 管理部</label> <label>
 				</div>
 			</div>
 
@@ -135,11 +135,7 @@ input[type="text"], input[type="password"] {
 			<div class="buttons">
 				<input type="submit" value="登録"> <input type="reset"
 					value="クリア">
-				<button type="button"
-					onclick="location.href='<%=request.getContextPath()%>/admin/sales.jsp'">戻る</button>
-			</div>
-
-		</form>
+<button type="button" onclick="history.back()">戻る</button>
 	</div>
 
 </body>

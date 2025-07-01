@@ -99,10 +99,8 @@ button {
 
 	<h1>顧客管理</h1>
 	
-			
-<div class="top-link">
-    <a href="<%=request.getContextPath()%>/admin/salesTop.jsp" class="btn">TOPへ戻る</a>
-</div>
+
+
 
 
 	<div class="container">
@@ -142,6 +140,41 @@ button {
 			%>
 		</table>
 		
+					<div class="pagination">
+			<%
+			Integer currentPageObj = (Integer) request.getAttribute("currentPage");
+			Integer totalPagesObj = (Integer) request.getAttribute("totalPages");
+			String keyword = (String) request.getAttribute("keyword");
+
+			int currentPage = (currentPageObj != null) ? currentPageObj : 1;
+			int totalPages = (totalPagesObj != null) ? totalPagesObj : 1;
+			if (keyword == null)
+				keyword = "";
+
+			if (currentPage > 1) {
+			%>
+			<a
+				href="<%=request.getContextPath()%>/HumanManagementServlet?page=<%=currentPage - 1%>&keyword=<%=keyword%>">前へ</a>
+			<%
+			}
+			%>
+
+			<%=currentPage%>
+			/
+			<%=totalPages%>
+
+			<%
+			if (currentPage < totalPages) {
+			%>
+			<a
+				href="<%=request.getContextPath()%>/HumanManagementServlet?page=<%=currentPage + 1%>&keyword=<%=keyword%>">次へ</a>
+			<%
+			}
+			%>
+		</div>
+		<div class="top-link">
+    <a href="<%=request.getContextPath()%>/admin/salesTop.jsp" class="btn">TOPへ戻る</a>
+</div>
 
 
 		

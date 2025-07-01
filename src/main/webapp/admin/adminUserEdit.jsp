@@ -81,7 +81,7 @@ input[type="text"], input[type="password"] {
 }
 
 .error {
-	color: red;
+	color: red;  
 	text-align: center;
 	margin-bottom: 15px;
 }
@@ -90,7 +90,7 @@ input[type="text"], input[type="password"] {
 <body>
 
 	<div class="container">
-		<h1>社員情報編集</h1>
+		<h1>社員情報編集</h1> 
 
 		<%
 		if (errorMsg != null) {
@@ -100,37 +100,47 @@ input[type="text"], input[type="password"] {
 		}
 		%>
 
-		<form action="<%=request.getContextPath()%>/UpdateEmployeeServlet"
-			method="post">
-			<div class="field">
-				<label>社員ID:</label> <input type="text" name="emp_id"
-					value="<%=user.getEmp_id()%>">
+		<form action="<%=request.getContextPath()%>/UpdateEmployeeServlet" method="post">
+
+			<div class="field"> 
+				<label>社員ID:</label>
+				<%=user.getEmp_id()%>
+				<input type="hidden" name ="emp_id" value ="<%= user.getEmp_id() %>">
 			</div>
 
 			<div class="field">
-				<label>社員名:</label> <input type="text" name="emp_name"
-					maxlength="100"
+				<label>社員名:</label>
+				<input type="text" name="emp_name" maxlength="100"
 					value="<%=user.getEmp_name() != null ? user.getEmp_name() : ""%>">
 			</div>
-
+						<div class="field" style="margin-top: 25px;"> 
+				<label>部署:</label>
+				<div class="radio-group">
+					<label><input type="radio" name="role_id" value="1"
+						<%=user.getRole_id() == 1 ? "checked" : ""%>> 営業部</label>
+					<label><input type="radio" name="role_id" value="3"
+						<%=user.getRole_id() == 2 ? "checked" : ""%>> 管理部</label>
+				</div>
+			</div>
 
 			<div class="field">
-				<label>役職:</label> <input type="text" name="emp_position"
-					maxlength="50"
+				<label>役職:</label>
+				<input type="text" name="emp_position" maxlength="50"
 					value="<%=user.getEmp_position() != null ? user.getEmp_position() : ""%>">
 			</div>
 
 			<div class="field">
-				<label>パスワード:</label> <input type="password" name="pass"
-					maxlength="50"
+				<label>パスワード:</label>
+				<input type="password" name="pass" maxlength="50"
 					value="<%=user.getPass() != null ? user.getPass() : ""%>">
 			</div>
 
 			<div class="buttons">
-				<input type="submit" value="更新"> <input type="button"
-					value="キャンセル"
+				<input type="submit" value="更新">
+				<input type="button" value="キャンセル"
 					onclick="location.href='<%=request.getContextPath()%>/empListServlet';">
-			</div>
+			</div> 
+
 		</form>
 	</div>
 

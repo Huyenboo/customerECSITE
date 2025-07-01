@@ -70,11 +70,10 @@ public class AdminUserUpdateServlet extends HttpServlet {
 			} else if (emp_name.length() > 100 || emp_position.length() > 50 || pass.length() > 50) {
 				hasError = true;
 				errorMsg = "文字数もしくは形式が正しくありません。";
-			}
-
+			} 
 			int role_id = 0;
 			try {
-				role_id = Integer.parseInt(roleStr);
+				role_id = Integer.parseInt(roleStr); 
 				if (role_id < 1 || role_id > 3) {
 					hasError = true;
 					errorMsg = "権限の選択が正しくありません。";
@@ -83,26 +82,25 @@ public class AdminUserUpdateServlet extends HttpServlet {
 				hasError = true;
 				errorMsg = "権限の選択が正しくありません。";
 			}
-
+			
 			AdminUserBean user = new AdminUserBean();
 			user.setEmp_id(emp_id);
 			user.setEmp_name(emp_name);
 			user.setEmp_position(emp_position);
 			user.setPass(pass);
 			user.setRole_id(role_id);
-
 			if (hasError) {
 				request.setAttribute("errorMsg", errorMsg);
 				request.setAttribute("userEdit", user);
 				request.getRequestDispatcher("/admin/adminUserEdit.jsp").forward(request, response);
 				return;
 			}
-
+			
 			EmpDAO dao = new EmpDAO();
 			boolean success = dao.updateUser(user);
 
 			if (success) {
-				String msg = URLEncoder.encode("登録が完了しました。", "UTF-8");
+				String msg = URLEncoder.encode("更新が完了しました。", "UTF-8");
 				response.sendRedirect(request.getContextPath() + "/empListServlet?message=" + msg);
 			} else {
 				request.setAttribute("errorMsg", "更新に失敗しました。");

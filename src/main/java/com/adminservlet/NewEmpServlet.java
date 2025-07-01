@@ -27,29 +27,32 @@ public class NewEmpServlet extends HttpServlet {
 		if (roleIdStr != null && !roleIdStr.isEmpty()) {
 			roleId = Integer.parseInt(roleIdStr);
 		}
+
 		AdminUserBean emp = new AdminUserBean();
 		emp.setEmp_id(empId);
 		emp.setEmp_name(empName);
 		emp.setRole_id(roleId);
 		emp.setEmp_position(empPosition);
 		emp.setPass(pass);
+		
+		
 
 		EmpDAO dao = new EmpDAO();
 		AdminUserBean checkEmpId = new AdminUserBean();
 		checkEmpId = dao.getEmplById(empId);
-		if(checkEmpId == null ) {
-			request.setAttribute("message", "IDが存在しています。");
-			request.getRequestDispatcher("/admin/newEmp.jsp").forward(request, response);
-			return ;
-			
+		if (checkEmpId != null) {
+		    request.setAttribute("message", "IDが重複しています。");
+		    request.getRequestDispatcher("/admin/newEmp.jsp").forward(request, response);
+		    return;
 		}
 		boolean success = dao.insertEmployee(emp);
 		
 
 		if (success) {
-			response.sendRedirect(request.getContextPath() + "/empListServlet");
+			request.setAttribute("message", "登録が完了しました。");
+			request.getRequestDispatcher("/empListServlet").forward(request, response);
 		} else {
-			request.setAttribute("message", "登録に失敗しました。");
+			request.setAttribute("message", "登録に失敗しました。"); 
 			request.getRequestDispatcher("/admin/newEmp.jsp").forward(request, response);
 		}
 	}

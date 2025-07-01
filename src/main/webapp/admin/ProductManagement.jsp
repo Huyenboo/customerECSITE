@@ -133,7 +133,7 @@ button, .link-btn, input[type="submit"] {
 		<% } %>
 	</div>
 
-	<div style="text-align: center; margin-top: 20px;">
+	<div style="text-align: right; margin-top: 20px;">
 		<form action="<%= request.getContextPath() %>/admin/salesTop.jsp">
 			<button type="submit">TOPへ戻る</button>
 		</form>

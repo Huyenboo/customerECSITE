@@ -57,7 +57,7 @@ public class AdminLoginServlet extends HttpServlet {
 		    	}
 		    	
 		    }else {
-		    	request.setAttribute("error", "社員番号または、パスワードが正しくありません。");
+		    	request.setAttribute("error", "社員IDまたは、パスワードが正しくありません。");
 		    	request.getRequestDispatcher("/admin/adminLogin.jsp").forward(request, response);
 		    }
 		}catch(Exception e) {

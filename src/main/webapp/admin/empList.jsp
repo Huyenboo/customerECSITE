@@ -4,6 +4,9 @@
 List<AdminUserBean> empList = (List<AdminUserBean>) request.getAttribute("empList");
 String keyword = (String) request.getAttribute("keyword");
 if (keyword == null) keyword = "";
+
+String message = (String) request.getAttribute("message");
+
 %>
 <html>
 <head>
@@ -86,6 +89,14 @@ th {
 	<div class="container">
 
 		<h1>社員一覧</h1>
+		
+		<%
+		if (message != null) {
+		%>
+		<p class="error" style ="color:red"><%=message%></p>
+		<%
+		}
+		%>
 
 		<div style="margin-bottom: 10px;">
 			<button onclick="location.href='<%=request.getContextPath()%>/admin/newEmp.jsp'">新規登録</button>
@@ -105,7 +116,7 @@ th {
 				<th>部署</th>
 				<th>役職</th>
 				<th>パスワード</th>
-				<th>操作</th>
+				<th>操作</th> 
 			</tr>
 
 			<%
@@ -124,7 +135,7 @@ th {
 				</td>
 			</tr>
 			<%
-				}
+				} 
 			} else {
 			%>
 			<tr>

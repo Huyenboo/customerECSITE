@@ -64,8 +64,8 @@
     %>
 
     <form action="<%=request.getContextPath()%>/AdminLoginServlet" method="post">
-        <input type="text" name="emp_id" placeholder="社員ID" required>
-        <input type="password" name="pass" placeholder="パスワード" required>
+        <input type="text" name="emp_id" placeholder="社員ID">
+        <input type="password" name="pass" placeholder="パスワード">
         <button type="submit">ログイン</button>
     </form>
 </div>
