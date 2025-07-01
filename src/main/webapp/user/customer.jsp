@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%
-// Kiểm tra đăng nhập
 com.bean.User loginUser = (com.bean.User) session.getAttribute("loginUser");
 if (loginUser == null) {
-	response.sendRedirect("login.jsp");
+	response.sendRedirect(request.getContextPath() + "/login.jsp");
 	return;
 }
 %>

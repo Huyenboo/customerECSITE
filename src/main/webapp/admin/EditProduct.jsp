@@ -42,8 +42,37 @@ input, textarea {
 	width: 70%;
 }
 
+
 .buttons {
-	margin-top: 20px;
+    margin-top: 20px;
+    text-align: right;
+}
+
+.buttons input[type="submit"] {
+    width: 80px;   
+    padding: 5px;
+    border: 1px solid #333;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.buttons input[type="submit"]:hover {
+    background-color: #f0f0f0;
+}
+
+.buttons button {
+    padding: 6px 25px;
+    border: 1px solid #333;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.buttons button:hover {
+    background-color: #f0f0f0;
 }
 </style>
 </head>

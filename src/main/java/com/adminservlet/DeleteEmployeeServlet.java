@@ -9,17 +9,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import com.dao.ProductDAO;
+import com.admindao.EmpDAO;
 
-@WebServlet("/DeleteProductServlet")
-public class DeleteProductServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	public DeleteProductServlet() {
-		super();
-
-	}
-
+@WebServlet("/DeleteEmployeeServlet")
+public class DeleteEmployeeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -30,21 +23,13 @@ public class DeleteProductServlet extends HttpServlet {
 		}
 
 		String id = request.getParameter("id");
-		if (id != null) {
+		if (id != null && !id.isEmpty()) {
 			try {
-				new ProductDAO().deleteById(id);
+				new EmpDAO().deleteEmployeeById(id);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		response.sendRedirect(request.getContextPath() + "/ProductManagementServlet");
-
+		response.sendRedirect(request.getContextPath() + "/empListServlet");
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		doGet(request, response);
-	}
-
 }

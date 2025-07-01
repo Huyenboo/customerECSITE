@@ -14,7 +14,7 @@ public class OrderListDTO {
 	private double subTotal;
 	private Date arrivedDay;
 	private String memo;
-	OrderListDTO(Date orderDay, int orderId, String companyName, String proId, String proName, int amount,
+	public OrderListDTO(Date orderDay, int orderId, String companyName, String proId, String proName, int amount,
 			double proPrice, double subTotal, Date arrivedDay, String memo) {
 		super();
 		this.orderDay = orderDay;

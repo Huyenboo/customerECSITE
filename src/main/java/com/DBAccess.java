@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBAccess {
 	private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-	private static final String DB_URL = "jdbc:mysql://localhost/ecsite?useUnicode=true&characterEncoding=utf8";
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/ecsite?useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_0900_ai_ci&zeroDateTimeBehavior=CONVERT_TO_NULL";
 	private static final String DB_USER = "root";
 	private static final String DB_PWD = "";
 

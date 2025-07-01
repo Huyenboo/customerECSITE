@@ -45,7 +45,7 @@ public class CartItem implements Serializable {
 	}
 
 	public CartItem() {
-
+		
 	}
 
 	public Product getProduct() {

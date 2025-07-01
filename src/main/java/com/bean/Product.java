@@ -169,7 +169,17 @@ public class Product {
 		this.proMemo = proMemo;
 	}
 
-	    public double getProPrice() { return proPrice; }
+	    @Override
+	public String toString() {
+		return "Product [Id=" + Id + ", proId=" + proId + ", proName=" + proName + ", proNameShort=" + proNameShort
+				+ ", proEnName=" + proEnName + ", proKanaName=" + proKanaName + ", proFile=" + proFile
+				+ ", proSeedling=" + proSeedling + ", proBox=" + proBox + ", proCode1=" + proCode1 + ", proCode2="
+				+ proCode2 + ", proStan=" + proStan + ", proEnStan=" + proEnStan + ", proSciName=" + proSciName
+				+ ", proUnitNum=" + proUnitNum + ", proPrice=" + proPrice + ", proUnit=" + proUnit + ", proDiscard="
+				+ proDiscard + ", proMemo=" + proMemo + "]";
+	}
+
+		public double getProPrice() { return proPrice; }
 	    public void setProPrice(double proPrice) { this.proPrice = proPrice; }
 	//
 	//    public String getProExe() { return proExe; }

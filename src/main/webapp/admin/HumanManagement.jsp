@@ -13,65 +13,127 @@ if (user == null) {
 <title>顧客管理</title>
 <style>
 body {
-	font-family: "Yu Gothic UI", sans-serif;
-	background-color: #fff;
-	text-align: center;
-	margin: 0;
-	padding: 20px;
+    font-family: "Yu Gothic UI", sans-serif;
+    background-color: #fff;
+    margin: 0;
+    padding: 30px;
+    text-align: center;
 }
 
 h1 {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
+    font-size: 22px;
 }
 
 .container {
-	max-width: 800px;
-	margin: 0 auto;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 table {
-	width: 100%;
-	border-collapse: collapse;
-	margin: 15px auto;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
 }
 
 th, td {
-	border: 1px solid #333;
-	padding: 8px;
-	text-align: center;
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
 }
 
 th {
-	background-color: #eee;
+    background-color: #eee;
 }
 
 .search-container {
-	margin: 10px 0;
+    margin: 20px 0;
 }
 
-button, input[type="text"] {
-	padding: 5px 10px;
-	margin: 0 5px;
-	font-size: 14px;
+input[type="text"] {
+    width: 300px;
+    padding: 5px;
+    margin-right: 5px;
 }
 
-.action-cell a {
-	margin: 0 5px;
-	text-decoration: none;
-	color: blue;
+button {
+    padding: 5px 15px;
 }
 
 .pagination {
-	margin-top: 15px;
+    margin: 15px 0;
+}
+
+.top-link {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.top-link a {
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #333;
+    background-color: #f9f9f9;
+    color: #000;
+}
+.top-link {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 5px 15px;
+    border: 1px solid #333;
+    background-color: #fff;
+    color: #000;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 </style>
 </head>
 <body>
 
 	<h1>顧客管理</h1>
-	<div style="text-align: right; margin-bottom: 10px;">
-		<a href="<%=request.getContextPath()%>/admin/salesTop.jsp">TOPへ戻る</a>
-	</div>
+	
+			<div class="pagination">
+			<%
+			Integer currentPageObj = (Integer) request.getAttribute("currentPage");
+			Integer totalPagesObj = (Integer) request.getAttribute("totalPages");
+			String keyword = (String) request.getAttribute("keyword");
+
+			int currentPage = (currentPageObj != null) ? currentPageObj : 1;
+			int totalPages = (totalPagesObj != null) ? totalPagesObj : 1;
+			if (keyword == null)
+				keyword = "";
+
+			if (currentPage > 1) {
+			%>
+			<a
+				href="<%=request.getContextPath()%>/HumanManagementServlet?page=<%=currentPage - 1%>&keyword=<%=keyword%>">前へ</a>
+			<%
+			}
+			%>
+
+			<%=currentPage%>
+			/
+			<%=totalPages%>
+
+			<%
+			if (currentPage < totalPages) {
+			%>
+			<a
+				href="<%=request.getContextPath()%>/HumanManagementServlet?page=<%=currentPage + 1%>&keyword=<%=keyword%>">次へ</a>
+			<%
+			}
+			%>
+		</div>
+<div class="top-link">
+    <a href="<%=request.getContextPath()%>/admin/salesTop.jsp" class="btn">TOPへ戻る</a>
+</div>
 
 
 	<div class="container">
@@ -111,38 +173,7 @@ button, input[type="text"] {
 			%>
 		</table>
 
-		<div class="pagination">
-			<%
-			Integer currentPageObj = (Integer) request.getAttribute("currentPage");
-			Integer totalPagesObj = (Integer) request.getAttribute("totalPages");
-			String keyword = (String) request.getAttribute("keyword");
 
-			int currentPage = (currentPageObj != null) ? currentPageObj : 1;
-			int totalPages = (totalPagesObj != null) ? totalPagesObj : 1;
-			if (keyword == null)
-				keyword = "";
-
-			if (currentPage > 1) {
-			%>
-			<a
-				href="<%=request.getContextPath()%>/HumanManagementServlet?page=<%=currentPage - 1%>&keyword=<%=keyword%>">前へ</a>
-			<%
-			}
-			%>
-
-			<%=currentPage%>
-			/
-			<%=totalPages%>
-
-			<%
-			if (currentPage < totalPages) {
-			%>
-			<a
-				href="<%=request.getContextPath()%>/HumanManagementServlet?page=<%=currentPage + 1%>&keyword=<%=keyword%>">次へ</a>
-			<%
-			}
-			%>
-		</div>
 		
 		
 </div>		

@@ -92,8 +92,8 @@ public class ProductDAO extends DBAccess {
 
 	}
 
-	public Product getProductById(String id) {
-		Product p = null;
+	public List<Product> getListProductById(String id) {
+		List<Product> listProduct = new ArrayList<>();
 		String sql = "SELECT * FROM product WHERE pro_id = ?";
 
 		try {
@@ -102,8 +102,8 @@ public class ProductDAO extends DBAccess {
 			ps.setString(1, id);
 			ResultSet rs = ps.executeQuery();
 
-			if (rs.next()) {
-				p = new Product();
+			while (rs.next()) {
+				Product p = new Product();
 				p.setId(rs.getInt("id"));
 				p.setProId(rs.getString("pro_id"));
 				p.setProName(rs.getString("pro_name"));
@@ -123,10 +123,11 @@ public class ProductDAO extends DBAccess {
 				p.setProUnit(rs.getString("pro_unit"));
 				p.setProDiscard(rs.getInt("pro_discard"));
 				p.setProMemo(rs.getString("pro_memo"));
+				listProduct.add(p);
 				//				p.setProPrice(rs.getBigDecimal("pro_price"));
 				//				p.setProExe(rs.getString("pro_exe"));
 			}
-
+	
 			rs.close();
 			ps.close();
 		} catch (Exception e) {
@@ -135,7 +136,55 @@ public class ProductDAO extends DBAccess {
 			disconnect();
 		}
 
-		return p;
+		return listProduct;
+	}
+	
+	
+	public Product getProductById(String id) {
+		Product product = null;
+		String sql = "SELECT * FROM product WHERE pro_id = ?";
+
+		try {
+			connect();
+			PreparedStatement ps = getConnection().prepareStatement(sql);
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				product = new Product();
+				product.setId(rs.getInt("id"));
+				product.setProId(rs.getString("pro_id"));
+				product.setProName(rs.getString("pro_name"));
+				product.setProNameShort(rs.getString("pro_name_short"));
+				product.setProEnName(rs.getString("pro_en_name"));
+				product.setProKanaName(rs.getString("pro_kana_name"));
+				product.setProFile(rs.getString("pro_file"));
+				product.setProSeedling(rs.getString("pro_seedling"));
+				product.setProBox(rs.getString("pro_box"));
+				product.setProCode1(rs.getString("pro_code1"));
+				product.setProCode2(rs.getString("pro_code2"));
+				product.setProStan(rs.getString("pro_stan"));
+				product.setProEnStan(rs.getString("pro_en_stan"));
+				product.setProSciName(rs.getString("pro_sci_name"));
+				product.setProUnitNum(rs.getInt("pro_unit_num"));
+				product.setProPrice(rs.getDouble("pro_price"));
+				product.setProUnit(rs.getString("pro_unit"));
+				product.setProDiscard(rs.getInt("pro_discard"));
+				product.setProMemo(rs.getString("pro_memo"));
+			
+				//				p.setProPrice(rs.getBigDecimal("pro_price"));
+				//				p.setProExe(rs.getString("pro_exe"));
+			}
+	
+			rs.close();
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+
+		return product;
 	}
 
 	public List<Product> searchByKeyword(String keyword) {
@@ -325,7 +374,7 @@ public class ProductDAO extends DBAccess {
 		String sql = "DELETE FROM product WHERE id = ?";
 		connect();
 		try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
-			ps.setString(1, id); // カラムが VARCHAR 型なら正しい対応
+			ps.setInt(1, Integer.parseInt(id)); // Vì cột id là INT nên phải dùng setInt
 			return ps.executeUpdate() > 0;
 		} finally {
 			disconnect();
