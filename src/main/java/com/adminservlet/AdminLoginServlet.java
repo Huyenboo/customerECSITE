@@ -42,7 +42,7 @@ public class AdminLoginServlet extends HttpServlet {
 		    	
 		    	switch (user.getRole_id()) {
 		    	case 1: //部長　実装はしてない
-		    		response.sendRedirect(request.getContextPath() +"/admin/adminTop.jsp");
+		    		response.sendRedirect(request.getContextPath() +"/admin/managerTop.jsp");
 		    		break;
 		    	case 2 ://営業画面
 		    		response.sendRedirect(request.getContextPath() +"/admin/salesTop.jsp");

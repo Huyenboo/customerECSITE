@@ -7,6 +7,7 @@
         return;
     }
     String error = (String) request.getAttribute("error");
+    String success = (String) request.getAttribute("success");
 %>
 <html>
 <head>
@@ -23,6 +24,10 @@
     <% if (error != null) { %>
 	<p style="color: red;"><%=error %></p>
 	<% } %>
+	<% if (success != null){ %>
+		<p style="color: red;"><%= success  %></p>
+	<% } %>
+	
 
     <form action="<%= request.getContextPath() %>/AdminNewProductServlet" method="post">
       <div class="field"><label>ID:</label><input type="text" name="proId" required /></div>

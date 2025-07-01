@@ -10,25 +10,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import com.adminbean.AdminUserBean;
-import com.bean.CartItem;
 import com.dao.OrderDAO;
+import com.dto.OrderListDTO;
 
 @WebServlet("/OrderManagementServlet")
 public class OrderManagementServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-	public OrderManagementServlet() {
-		super();
-	}
-
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession(false);
-		AdminUserBean user = (session != null) ? (AdminUserBean) session.getAttribute("loginUser") : null;
-		if (user == null) {
-			response.sendRedirect(request.getContextPath() + "/admin/salesTop.jsp");
+		if (session == null || session.getAttribute("loginUser") == null) {
+			response.sendRedirect(request.getContextPath() + "/admin/adminLogin.jsp");
 			return;
 		}
 
@@ -46,20 +40,16 @@ public class OrderManagementServlet extends HttpServlet {
 		}
 		int offset = (page - 1) * limit;
 
-		// Tìm kiếm theo tên khách hàng
 		String keyword = request.getParameter("userName");
 
-		List<CartItem> orders;
+		List<OrderListDTO> orders;
 		int totalOrders = 0;
 
 		if (keyword != null && !keyword.trim().isEmpty()) {
 			orders = dao.searchOrdersByCustomerName(keyword, offset, limit);
 			totalOrders = dao.countOrdersByCustomerName(keyword);
-		} else if (request.getParameter("userId") != null && !request.getParameter("userId").isEmpty()) {
-			orders = dao.getAllOrderIdByUserId(request.getParameter("userId"));
-			totalOrders = orders.size();
 		} else {
-			orders = dao.getAllOrder(offset, limit);
+			orders = dao.getAllOrderList(offset, limit);
 			totalOrders = dao.getTotalOrderCount();
 		}
 
@@ -72,5 +62,4 @@ public class OrderManagementServlet extends HttpServlet {
 
 		request.getRequestDispatcher("/admin/OrderManagement.jsp").forward(request, response);
 	}
-
 }

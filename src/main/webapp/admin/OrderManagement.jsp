@@ -1,12 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="java.util.List, com.adminbean.AdminUserBean, com.bean.CartItem" %>
+<%@ page import="java.util.List, com.adminbean.AdminUserBean, com.dto.OrderListDTO" %>
+
 <%
-    AdminUserBean user = (AdminUserBean) session.getAttribute("loginUser");    
+    AdminUserBean user = (AdminUserBean) session.getAttribute("loginUser");
     if (user == null) {
-        response.sendRedirect(request.getContextPath() + "/salesTop.jsp");
+        response.sendRedirect(request.getContextPath() + "/admin/salesTop.jsp");
         return;
     }
 %>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -25,6 +27,13 @@ th { background: #eee; }
 button, .btn-link { padding: 5px 10px; margin: 0 5px; }
 a.btn-link { text-decoration: none; background: #ddd; border: 1px solid #aaa; }
 .pagination { margin-top: 15px; text-align: center; }
+.pagination a {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #aaa;
+    background: #eee;
+    text-decoration: none;
+}
 </style>
 </head>
 <body>
@@ -56,28 +65,26 @@ a.btn-link { text-decoration: none; background: #ddd; border: 1px solid #aaa; }
         </tr>
 
         <%
-        @SuppressWarnings("unchecked")
-        List<CartItem> orders = (List<CartItem>) request.getAttribute("orderList");
-        double proPrice;
+        List<OrderListDTO> orders = (List<OrderListDTO>) request.getAttribute("orderList");
+
         if (orders != null && !orders.isEmpty()) {
-            for (CartItem ci : orders) {
-            	proPrice = ci.getProduct().getProPrice();
+            for (OrderListDTO dto : orders) {
         %>
         <tr>
-            <td><%= ci.getOrderDay() %></td>
-            <td><%= ci.getOrderId() %></td>
-            <td><%= ci.getCompanyName() %></td>
-            <td><%= ci.getProduct().getProId() %></td>
-            <td><%= ci.getProduct().getProName() %></td>
-            <td><%= ci.getQuantity() %></td>
-            <td><%= ci.getProduct().getProPrice() %></td>
-            <td><%= ci.getSubtotal(proPrice) %></td>
-            <td><%= ci.getDeliveryDate() %></td>
-            <td><%= ci.getOrderMemo() != null ? ci.getOrderMemo() : "" %></td>
+            <td><%= dto.getOrderDay() %></td>
+            <td><%= dto.getOrderId() %></td>
+            <td><%= dto.getCompanyName() %></td>
+            <td><%= dto.getProId() %></td>
+            <td><%= dto.getProName() %></td>
+            <td><%= dto.getAmount() %></td>
+            <td><%= dto.getProPrice() %></td>
+            <td><%= Math.round(dto.getSubTotal()) %></td>
+            <td><%= dto.getArrivedDay() %></td>
+            <td><%= dto.getMemo() != null ? dto.getMemo() : "" %></td>
             <td>
-                <a href="OrderDetailUpdate?id=<%= ci.getOrderId() %>&memo=<%= "確定" %>">確定</a>
-                <a href="OrderEditServlet?id=<%= ci.getOrderId() %>">編集</a>
-                <a href="OrderDeleteServlet?id=<%= ci.getOrderId() %>" onclick="return confirm('本当に削除しますか？');">削除</a>
+                <a href="OrderDetailUpdate?id=<%= dto.getOrderId() %>&memo=確定">確定</a>
+                <a href="OrderEditServlet?id=<%= dto.getOrderId() %>">編集</a>
+                <a href="OrderDeleteServlet?id=<%= dto.getOrderId() %>" onclick="return confirm('本当に削除しますか？');">削除</a>
             </td>
         </tr>
         <% }
@@ -88,20 +95,20 @@ a.btn-link { text-decoration: none; background: #ddd; border: 1px solid #aaa; }
 
     <div class="pagination">
         <%
-            Integer currentPage = (Integer) request.getAttribute("currentPage");
-            Integer totalPages = (Integer) request.getAttribute("totalPages");
-            String keyword = (String) request.getAttribute("keyword");
-            if (currentPage == null) currentPage = 1;
-            if (totalPages == null) totalPages = 1;
-            if (keyword == null) keyword = "";
+            int currentPage = request.getAttribute("currentPage") != null ? (Integer) request.getAttribute("currentPage") : 1;
+            int totalPages = request.getAttribute("totalPages") != null ? (Integer) request.getAttribute("totalPages") : 1;
+            String keyword = request.getAttribute("keyword") != null ? (String) request.getAttribute("keyword") : "";
+            String baseUrl = "OrderManagementServlet";
         %>
 
         <% if (currentPage > 1) { %>
-            <a href="OrderManagementServlet?page=<%= currentPage - 1 %>&userName=<%= keyword %>">前へ</a>
+            <a href="<%= baseUrl %>?page=<%= currentPage - 1 %>&userName=<%= keyword %>">前へ</a>
         <% } %>
+
         <span><%= currentPage %> / <%= totalPages %></span>
+
         <% if (currentPage < totalPages) { %>
-            <a href="OrderManagementServlet?page=<%= currentPage + 1 %>&userName=<%= keyword %>">次へ</a>
+            <a href="<%= baseUrl %>?page=<%= currentPage + 1 %>&userName=<%= keyword %>">次へ</a>
         <% } %>
     </div>
 

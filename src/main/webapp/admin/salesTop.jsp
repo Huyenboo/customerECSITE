@@ -58,13 +58,12 @@
     </form>
 
     <h1>営業部 TOP</h1>
-    <h3>ようこそ <%= user.getRole_name() %> <%= user.getEmp_name() %> さん</h3>
 
     <div class="menu-container">
         <a href="<%=request.getContextPath()%>/ProductManagementServlet" class="menu-item">商品管理画面</a>
         <a href="<%=request.getContextPath()%>/HumanManagementServlet" class="menu-item">顧客管理画面</a>
         <a href="<%=request.getContextPath()%>/OrderManagementServlet" class="menu-item">注文管理画面</a>
-        <a href="<%=request.getContextPath()%>/TotalCostManagementServlet" class="menu-item">売上日計表</a>
+        <a href="<%=request.getContextPath()%>/salesSummary" class="menu-item">売上日計表</a>
     </div>
 </body>
 </html>

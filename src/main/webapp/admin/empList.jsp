@@ -93,7 +93,7 @@ th {
 
 		<div class="search-box">
 			<form action="<%=request.getContextPath()%>/SearchEmployeeServlet" method="get">
-				<input type="text" name="keyword" placeholder="社員番号または社員名で検索" value="<%=keyword%>">
+				<input type="text" name="keyword" placeholder="社員IDまたは社員名で検索" value="<%=keyword%>">
 				<button type="submit">検索</button>
 			</form>
 		</div>
@@ -115,12 +115,12 @@ th {
 			<tr>
 				<td><%=emp.getEmp_id()%></td>
 				<td><%=emp.getEmp_name()%></td>
-				<td><%=emp.getRole_name()%></td> <!-- Hiển thị tên phòng ban -->
+				<td><%=emp.getRole_name()%></td> 
 				<td><%=emp.getEmp_position()%></td>
-				<td>******</td> <!-- Không hiển thị mật khẩu thật -->
+				<td>******</td> 
 				<td>
 					<a href="<%=request.getContextPath()%>/UpdateEmployeeServlet?userId=<%=emp.getEmp_id()%>" class="link-btn">変更</a>
-					<a href="<%=request.getContextPath()%>/EmployeeDeleteServlet?id=<%=emp.getId()%>" class="link-btn" onclick="return confirm('本当に削除しますか？');">削除</a>
+					<a href="<%=request.getContextPath()%>/DeleteEmployeeServlet?id=<%=emp.getId()%>" class="link-btn" onclick="return confirm('本当に削除しますか？');">削除</a>
 				</td>
 			</tr>
 			<%
